@@ -1,6 +1,6 @@
 .App {
-  text-align: center;
-	height: 100%;
+overflow: hidden;
+height: 100%;
 }
 
 div#root {
@@ -40,3 +40,6 @@ div#root {
 html,body {
     height:100%;
 	}
+.Main {
+	margin-top: 3.5em;
+}
