@@ -1,16 +1,22 @@
 import React from 'react';
 import './Navbar.css'
 
-import { Link } from "react-router-dom";
+import { Navbar, NavbarGroup, Classes, NavbarHeading, Alignment, NavbarDivider, Button } from "@blueprintjs/core";
 
-function Navbar() {
+
+function MyNavbar() {
 	return (
-		<div className="sticky_top"> 
-			<Link className="title_element" to="/Projects">Projects</Link>
-			<Link className="title_element" to="/Features">Features</Link>
-			<Link className="title_element" to="/Labels">Labels</Link>
-		</div>
+		<Navbar className="bp3-dark" style={ {position: 'fixed', top: 0}}> 
+		<NavbarGroup align={Alignment.RIGHT}>
+                        <NavbarHeading>FoundaMl</NavbarHeading>
+                        <NavbarDivider />
+                        <Button className={Classes.MINIMAL} icon="home" text="Projects" />
+                        <Button className={Classes.MINIMAL} icon="document" text="Features" />
+                        <Button className={Classes.MINIMAL} icon="document" text="Labels" />
+                    </NavbarGroup>
+
+		</Navbar>
 	)
 }
 
-export default Navbar;
+export default MyNavbar;

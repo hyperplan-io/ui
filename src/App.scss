@@ -1,6 +1,8 @@
+@import "~@blueprintjs/core/src/components/navbar/_navbar.scss";
+
 .App {
-overflow: hidden;
-height: 100%;
+	overflow: hidden;
+	height: 100%;
 }
 
 div#root {
@@ -41,5 +43,6 @@ html,body {
     height:100%;
 	}
 .Main {
-	margin-top: 3.5em;
+	margin: $pt-navbar-height;
+	padding: 2em;
 }
