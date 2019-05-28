@@ -1,0 +1,17 @@
+
+.formPadding {
+  padding: 25%;
+}
+
+.formTitle {
+  width: 100%;
+}
+
+.authenticationField {
+  padding-top: 1em;
+}
+
+.signInButton {
+  margin-top: 1em;
+  width: 100%;
+}

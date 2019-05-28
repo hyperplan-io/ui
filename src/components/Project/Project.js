@@ -4,11 +4,8 @@ import { Button, Card, Classes, H5 } from "@blueprintjs/core";
 import './Project.css';
 
 class Project extends React.Component {
-	constructor() {
-		super();
-	}
 
-	render() {
+  render() {
 		return (
 			<Card className="projectComponent" {...this.state}>
                     <H5>

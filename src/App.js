@@ -1,32 +1,37 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+
+import SignIn from './components/SignIn/SignIn';
 
 import './App.scss';
 
-import Navbar from './components/Navbar/Navbar';
-import Projects from './components/Projects/Projects';
-import Features from './components/Features/Features';
+import { BrowserRouter } from 'react-router-dom';
 
-function Main() {
-	return (
-			<div className="Main">
-			<Switch >
-				<Route exact path='/' component={Projects}/>
-				<Route path='/projects' component={Projects}/>
-				<Route path='/features' component={Features}/>
-			</Switch>
-			</div>
-	);
-}
+class App extends React.Component {
 
-function App() {
-  return (
-    <div className="App">
-      <Navbar />
-			<Main className="Main"/>
-        
-    </div>
-  );
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: {
+        isAuthenticated: localStorage.getItem('isAuthenticated'),
+        accessToken: localStorage.getItem('accessToken')
+      }
+    }
+  }
+
+  
+  render() {
+    return (
+    <BrowserRouter>
+      <div className="App">
+				<div className="AuthenticationForm">
+				  <SignIn user={this.state.user}>
+        </SignIn>
+				</div>
+      </div>
+    </BrowserRouter>
+    );
+  }
+  
 }
 
 export default App;
