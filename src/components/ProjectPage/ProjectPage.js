@@ -1,6 +1,9 @@
 import React from 'react';
 import axios from 'axios';
+
 import Project from '../Project/Project';
+import { Divider, H2 } from "@blueprintjs/core";
+import Features from '../Features/Features';
 
 class ProjectPage extends React.Component {
 
@@ -27,7 +30,12 @@ class ProjectPage extends React.Component {
     return (
       <div>
         { this.state.project && 
-          <Project project={this.state.project}/>
+          <div>
+            <H2> {this.state.project.name}</H2>
+            <Divider />
+          <br/>
+            <Features features={this.state.project.configuration.features} />
+          </div>
         }
       </div>
     )
