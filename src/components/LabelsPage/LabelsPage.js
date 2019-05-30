@@ -1,8 +1,6 @@
 import React from 'react';
 import './LabelsPage.css';
-import Labels from '../Labels/Labels';
-
-import { Button, Card, H3, H5, Callout, Text, Collapse } from "@blueprintjs/core";
+import { Button, Card, H5 } from "@blueprintjs/core";
 import axios from 'axios';
 
 function Label(props) {

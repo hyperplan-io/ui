@@ -1,5 +1,5 @@
 import React from 'react'; 
-import { Intent, Toaster, Callout, Text, RadioGroup, Radio, InputGroup, FormGroup, Button, Card, Classes, H2, H4, H5 } from "@blueprintjs/core";
+import { Intent, Toaster, Callout, Text, RadioGroup, Radio, InputGroup, FormGroup, Button, Card, H2, H4 } from "@blueprintjs/core";
 import './CreateFeaturesPage.css';
 
 import axios from 'axios';
@@ -100,12 +100,16 @@ const defaultState = {
   dimension: 'One'
 }
 
+function randomString() {
+  return Math.random().toString(36).slice(-5)
+}
+
 function computeType(dataType, dimension) {
-    if(dimension == 'One') {
+    if(dimension === 'One') {
       return dataType;
-    } else if(dimension == 'Vector') {
+    } else if(dimension === 'Vector') {
       return `${dataType}Vector`
-    } else if(dimension == 'Float') {
+    } else if(dimension === 'Float') {
       return `${dataType}Vector2d`
     }
 }
@@ -113,9 +117,9 @@ class CreateFeaturesPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      nextId: 1,
+      nextId: randomString(),
       features: {
-        0: defaultState
+        '0': defaultState
       }
     }
     this.handleCreateFeatures= this.handleCreateFeatures.bind(this);
@@ -132,7 +136,7 @@ class CreateFeaturesPage extends React.Component {
       let newFeatures = prevState.features; 
       newFeatures[prevState.nextId] = defaultState;
       return {
-        nextId: prevState.nextId + 1,
+        nextId: randomString(),
         features: newFeatures
       }
     })
@@ -153,11 +157,11 @@ class CreateFeaturesPage extends React.Component {
   handleDimensionChange(id, event) {
     const newDimension = event.target.value;
     this.setState(prevState => {
-      let newFeature = prevState.features;
-      newFeature[id].dimension = newDimension;
+      const newFeature = { ...prevState.features[id], ...{ dimension : newDimension}}
+      const newFeatures = {...prevState.features, ...{ [id]: newFeature}}
       return {
         nextId: prevState.nextId,
-        features: newFeature 
+        features: newFeatures
       }
     });
   }
@@ -165,11 +169,11 @@ class CreateFeaturesPage extends React.Component {
   handleFeatureNameChange(id, event) {
     const newName = event.target.value;
     this.setState(prevState => {
-      let newFeature = prevState.features;
-      newFeature[id].name = newName;
+      const newFeature = { ...prevState.features[id], ...{ name: newName}}
+      const newFeatures = {...prevState.features, ...{ [id]: newFeature}}
       return {
         nextId: prevState.nextId,
-        features: newFeature 
+        features: newFeatures
       }
     });
   }
@@ -177,11 +181,11 @@ class CreateFeaturesPage extends React.Component {
   handleFeatureDescriptionChange(id, event) {
     const newDescription = event.target.value;
     this.setState(prevState => {
-      let newFeature = prevState.features;
-      newFeature[id].description = newDescription;
+      const newFeature = { ...prevState.features[id], ...{ description: newDescription}}
+      const newFeatures = {...prevState.features, ...{ [id]: newFeature}}
       return {
         nextId: prevState.nextId,
-        features: newFeature 
+        features: newFeatures
       }
     });
   }
@@ -198,7 +202,6 @@ class CreateFeaturesPage extends React.Component {
 			intent: Intent.DANGER,
 			message: message
 		}
-		//toast.className = this.props.data.themeName;
 		toast.timeout = 5000;
 		this.toaster.show(toast);
 	}

@@ -17,7 +17,7 @@ class Projects extends React.Component {
 	}
 
   handleCreateProject() {
-    console.log("create project")
+    this.props.history.push('createProject');
   }
 
 	componentDidMount() {

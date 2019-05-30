@@ -1,10 +1,25 @@
 import React from 'react';
 import axios from 'axios';
 
-import Project from '../Project/Project';
-import { Divider, H2 } from "@blueprintjs/core";
+import { Button, Divider, H2, H3, Text } from "@blueprintjs/core";
 import Features from '../Features/Features';
 import Labels from '../Labels/Labels';
+import Algorithms from '../Algorithms/Algorithms';
+import './ProjectPage.css';
+
+function Policy(props) {
+  return (
+    <div>
+      <H3>Policy</H3>
+      { (props.policy.class === 'NoAlgorithm' &&
+      <Text> This project does not have any algorithms </Text>)}
+      { (props.policy.class === 'DefaultAlgorithm' &&
+      <Text> Serving <b>{props.policy.algorithmId}</b> by default </Text>)}
+      { (props.policy.class === 'WeightedAlgorithm' &&
+      <Text> Weights <b>{JSON.stringify(props.policy.weights)}</b> </Text>)}
+    </div>
+  )
+}
 
 class ProjectPage extends React.Component {
 
@@ -13,6 +28,11 @@ class ProjectPage extends React.Component {
     this.state = {
 
     }
+    this.handleCreateAlgorithm = this.handleCreateAlgorithm.bind(this);
+  }
+
+  handleCreateAlgorithm() {
+    this.props.history.push(`/createAlgorithm?projectId=${this.state.project.id}`)
   }
 
   componentDidMount() {
@@ -25,6 +45,8 @@ class ProjectPage extends React.Component {
         this.setState( {
 			    project: r.data
 		    });
+      }).catch( err => {
+        console.log(err);
       });
   }
   render() {
@@ -34,11 +56,23 @@ class ProjectPage extends React.Component {
           <div>
             <H2> {this.state.project.name}</H2>
             <Divider />
-          <br/>
-            <Features features={this.state.project.configuration.features} />
-          <br/>
-            <Labels labels={this.state.project.configuration.labels} />
+            <div>
+              <div className="leftPanel">
+                <Button style={ { marginRight: '2em', marginTop: '1em'}} onClick={this.handleCreateAlgorithm} className="rightButton" rightIcon="arrow-right" intent="success">Create a new algorithm</Button>
+          <br/><br/><br/><br/>
+              { this.state.project && <Algorithms algorithms={this.state.project.algorithms} />}
+              </div>
+              <div className="rightPanel">
+              <br/>
+                <Policy policy={this.state.project.policy}/>    
+                <br/>
+                <Features features={this.state.project.configuration.features} />
+                <br/>
+                <Labels labels={this.state.project.configuration.labels} />
+              </div>
+            </div>
           </div>
+          
         }
       </div>
     )
