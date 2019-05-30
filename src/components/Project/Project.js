@@ -14,7 +14,6 @@ class Project extends React.Component {
                     <p>
 											{ this.props.project.description } 
                     </p>
-                    <Button text="Open" className={Classes.BUTTON} />
                 </Card>
 		)
 	}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import ProjectsPage from '../ProjectsPage/ProjectsPage';
+import ProjectPage from '../ProjectPage/ProjectPage';
 import Features from '../Features/Features';
 
 
@@ -11,6 +12,10 @@ function Main(myProps) {
 				<Route 
           exact path='/' 
           render={(props) => <ProjectsPage {...props} user={myProps.user} />} 
+        />
+        <Route 
+          path='/projects/:projectId'
+          render={(props) => <ProjectPage {...props} user={myProps.user} />} 
         />
 				<Route 
           path='/projects'
