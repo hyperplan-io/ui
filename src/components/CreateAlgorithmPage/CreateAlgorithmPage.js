@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Button, HTMLSelect, RadioGroup, Radio, InputGroup, Card } from "@blueprintjs/core";
-import { Select } from "@blueprintjs/select";
 import axios from 'axios';
 
 import TensorFlowBackendConfiguration from '../TensorFlowBackendConfiguration/TensorFlowBackendConfiguration';
@@ -128,9 +127,9 @@ class CreateAlgorithmPage extends React.Component {
   
   render() {
     let options;
-    if(this.state.problemType == 'Classification') {
+    if(this.state.problemType === 'Classification') {
       options = classificationBackends;
-    } else if(this.state.problemType == 'Regression') {
+    } else if(this.state.problemType === 'Regression') {
       options = regressionBackends;
     }
 

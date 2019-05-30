@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 
-import Project from '../Project/Project';
 import { Button, Divider, H2, H3, Text } from "@blueprintjs/core";
 import Features from '../Features/Features';
 import Labels from '../Labels/Labels';
@@ -12,7 +11,7 @@ function Policy(props) {
   return (
     <div>
       <H3>Policy</H3>
-      { (props.policy.class == 'NoAlgorithm' &&
+      { (props.policy.class === 'NoAlgorithm' &&
       <Text> This project does not have any algorithms </Text>)}
     </div>
   )

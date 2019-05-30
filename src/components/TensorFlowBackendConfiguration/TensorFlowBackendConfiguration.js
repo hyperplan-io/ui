@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Card, InputGroup, H2, H4, H5 } from "@blueprintjs/core";
+import {Card, InputGroup, H5 } from "@blueprintjs/core";
 class TensorFlowBackendConfiguration extends React.Component {
 
   constructor(props) {

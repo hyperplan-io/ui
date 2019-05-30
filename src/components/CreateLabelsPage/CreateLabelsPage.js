@@ -1,5 +1,5 @@
 import React from 'react'; 
-import { Intent, TagInput, Toaster, Callout, Text, RadioGroup, Radio, InputGroup, FormGroup, Button, Card, Classes, H2, H4, H5 } from "@blueprintjs/core";
+import { Intent, TagInput, Toaster, Callout, Text, RadioGroup, Radio, InputGroup, Button, H2, H4 } from "@blueprintjs/core";
 import './CreateLabelsPage.css';
 
 import axios from 'axios';
@@ -162,7 +162,7 @@ class CreateLabelsPage extends React.Component {
 							<Radio label="Dynamic" value="dynamic" />
 				</RadioGroup>
 				<br/>
-        { this.state.labelType == 'oneOf' && <StaticLabel handleOnChangeLabels={this.handleOnChangeLabels}/>}
+        { this.state.labelType === 'oneOf' && <StaticLabel handleOnChangeLabels={this.handleOnChangeLabels}/>}
         <br/>
         
       </div>
