@@ -22,7 +22,7 @@ function Feature(props) {
 function Features(props) {
   console.log(props)
   const featuresComponents = props.features.data.map(feature =>
-    <Feature feature={feature} />
+    <Feature key={feature.name} feature={feature} />
   );
   return (
     <div>

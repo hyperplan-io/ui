@@ -18,6 +18,7 @@ class Projects extends React.Component {
 
   handleCreateProject() {
     console.log("create project")
+    this.props.history.push('createProject');
   }
 
 	componentDidMount() {
@@ -26,6 +27,7 @@ class Projects extends React.Component {
     };
     axios.get('https://antoine.api.foundaml.org/projects', { headers: headers })
       .then(r => {
+        console.log(r.data)
         this.setState( {
 			    projects: r.data
 		    });

@@ -8,6 +8,7 @@ import LabelsPage from '../LabelsPage/LabelsPage';
 import LabelPage from '../LabelPage/LabelPage';
 import CreateFeaturesPage from '../CreateFeaturesPage/CreateFeaturesPage';
 import CreateLabelsPage from '../CreateLabelsPage/CreateLabelsPage';
+import CreateAlgorithmPage from '../CreateAlgorithmPage/CreateAlgorithmPage';
 
 
 function Main(myProps) {
@@ -49,6 +50,10 @@ function Main(myProps) {
 				<Route 
           path='/createLabels' 
           render={(props) => <CreateLabelsPage{...props} user={myProps.user} />} 
+        />
+        <Route 
+          path='/createAlgorithm' 
+          render={(props) => <CreateAlgorithmPage{...props} user={myProps.user} />} 
         />
 			</Switch>
 			</div>

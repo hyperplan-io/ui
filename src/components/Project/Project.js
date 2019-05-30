@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, Classes, H5 } from "@blueprintjs/core";
+import { Card, H5 } from "@blueprintjs/core";
 
 import './Project.css';
 

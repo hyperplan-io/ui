@@ -25,6 +25,11 @@ class ProjectPage extends React.Component {
     this.state = {
 
     }
+    this.handleCreateAlgorithm = this.handleCreateAlgorithm.bind(this);
+  }
+
+  handleCreateAlgorithm() {
+    this.props.history.push(`/createAlgorithm?projectId=${this.state.project.id}`)
   }
 
   componentDidMount() {
@@ -34,12 +39,18 @@ class ProjectPage extends React.Component {
     };
     axios.get(`https://antoine.api.foundaml.org/projects/${projectId}`, { headers: headers })
       .then(r => {
+        console.log('got project !');
+        console.log(r.data);
         this.setState( {
 			    project: r.data
 		    });
+      }).catch( err => {
+        console.log(err);
       });
   }
   render() {
+    console.log('algorithms **')
+    console.log(this.state.project);
     return (
       <div>
         { this.state.project && 
@@ -48,8 +59,8 @@ class ProjectPage extends React.Component {
             <Divider />
             <div>
               <div className="leftPanel">
-      <Button style={ { marginRight: '2em', marginTop: '1em'}} onClick={this.handleCreateFeatures} className="rightButton" rightIcon="arrow-right" intent="success">Create a new algorithm</Button>
-                <Algorithms algorithms={this.state.project.algorithms} />
+                <Button style={ { marginRight: '2em', marginTop: '1em'}} onClick={this.handleCreateAlgorithm} className="rightButton" rightIcon="arrow-right" intent="success">Create a new algorithm</Button>
+              { this.state.project && <Algorithms algorithms={this.state.project.algorithms} />}
               </div>
               <div className="rightPanel">
               <br/>

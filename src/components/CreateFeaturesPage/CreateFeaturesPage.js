@@ -1,5 +1,5 @@
 import React from 'react'; 
-import { Intent, Toaster, Callout, Text, RadioGroup, Radio, InputGroup, FormGroup, Button, Card, Classes, H2, H4, H5 } from "@blueprintjs/core";
+import { Intent, Toaster, Callout, Text, RadioGroup, Radio, InputGroup, FormGroup, Button, Card, H2, H4 } from "@blueprintjs/core";
 import './CreateFeaturesPage.css';
 
 import axios from 'axios';
@@ -101,11 +101,11 @@ const defaultState = {
 }
 
 function computeType(dataType, dimension) {
-    if(dimension == 'One') {
+    if(dimension === 'One') {
       return dataType;
-    } else if(dimension == 'Vector') {
+    } else if(dimension === 'Vector') {
       return `${dataType}Vector`
-    } else if(dimension == 'Float') {
+    } else if(dimension === 'Float') {
       return `${dataType}Vector2d`
     }
 }
