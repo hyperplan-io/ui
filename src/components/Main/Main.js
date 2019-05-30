@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import ProjectsPage from '../ProjectsPage/ProjectsPage';
 import ProjectPage from '../ProjectPage/ProjectPage';
-import Features from '../Features/Features';
+import FeaturesPage from '../FeaturesPage/FeaturesPage';
 
 
 function Main(myProps) {
@@ -23,7 +23,7 @@ function Main(myProps) {
         />
 				<Route 
           path='/features' 
-          component={Features}
+          component={FeaturesPage}
         />
 			</Switch>
 			</div>

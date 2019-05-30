@@ -17,15 +17,15 @@ class MyNavbar extends React.Component {
 	}
 		
 	redirectProjects() {
-		this.props.history.push('Projects')
+		this.props.history.push('/Projects')
 	}
 
 	redirectFeatures() {
-		this.props.history.push('Features')
+		this.props.history.push('/Features')
 	}
 
 	redirectLabels() {
-		this.props.history.push('Labels')
+		this.props.history.push('/Labels')
 	}
 
 	render() {
