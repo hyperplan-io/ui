@@ -98,6 +98,7 @@ class CreateLabelsPage extends React.Component {
     const headers = {
       'Authorization': `Bearer ${this.props.user.accessToken}`
     };
+    console.log(payload)
 
     axios.post('https://antoine.api.foundaml.org/labels', payload, { headers:headers })
       .then(r => {

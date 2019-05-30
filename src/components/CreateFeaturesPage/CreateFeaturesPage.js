@@ -18,6 +18,7 @@ class CreateSingleFeature extends React.Component {
   }
 
   handleFeatureNameChange(event) {
+    console.log(`my id is ${this.props.id}`)
     this.props.handleFeatureNameChange(
       this.props.id,
       event
@@ -25,6 +26,7 @@ class CreateSingleFeature extends React.Component {
   }
 
   handleFeatureDescriptionChange(event) {
+    console.log(`my id is ${this.props.id}`)
     this.props.handleFeatureDescriptionChange(
       this.props.id,
       event
@@ -100,6 +102,10 @@ const defaultState = {
   dimension: 'One'
 }
 
+function randomString() {
+  return Math.random().toString(36).slice(-5)
+}
+
 function computeType(dataType, dimension) {
     if(dimension === 'One') {
       return dataType;
@@ -113,9 +119,9 @@ class CreateFeaturesPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      nextId: 1,
+      nextId: randomString(),
       features: {
-        0: defaultState
+        '0': defaultState
       }
     }
     this.handleCreateFeatures= this.handleCreateFeatures.bind(this);
@@ -131,8 +137,9 @@ class CreateFeaturesPage extends React.Component {
     this.setState(prevState => {
       let newFeatures = prevState.features; 
       newFeatures[prevState.nextId] = defaultState;
+      console.log(`newFeatures: ${JSON.stringify(newFeatures)}`)
       return {
-        nextId: prevState.nextId + 1,
+        nextId: randomString(),
         features: newFeatures
       }
     })
@@ -153,11 +160,11 @@ class CreateFeaturesPage extends React.Component {
   handleDimensionChange(id, event) {
     const newDimension = event.target.value;
     this.setState(prevState => {
-      let newFeature = prevState.features;
-      newFeature[id].dimension = newDimension;
+      const newFeature = { ...prevState.features[id], ...{ dimension : newDimension}}
+      const newFeatures = {...prevState.features, ...{ [id]: newFeature}}
       return {
         nextId: prevState.nextId,
-        features: newFeature 
+        features: newFeatures
       }
     });
   }
@@ -165,11 +172,11 @@ class CreateFeaturesPage extends React.Component {
   handleFeatureNameChange(id, event) {
     const newName = event.target.value;
     this.setState(prevState => {
-      let newFeature = prevState.features;
-      newFeature[id].name = newName;
+      const newFeature = { ...prevState.features[id], ...{ name: newName}}
+      const newFeatures = {...prevState.features, ...{ [id]: newFeature}}
       return {
         nextId: prevState.nextId,
-        features: newFeature 
+        features: newFeatures
       }
     });
   }
@@ -177,11 +184,11 @@ class CreateFeaturesPage extends React.Component {
   handleFeatureDescriptionChange(id, event) {
     const newDescription = event.target.value;
     this.setState(prevState => {
-      let newFeature = prevState.features;
-      newFeature[id].description = newDescription;
+      const newFeature = { ...prevState.features[id], ...{ description: newDescription}}
+      const newFeatures = {...prevState.features, ...{ [id]: newFeature}}
       return {
         nextId: prevState.nextId,
-        features: newFeature 
+        features: newFeatures
       }
     });
   }
@@ -198,7 +205,6 @@ class CreateFeaturesPage extends React.Component {
 			intent: Intent.DANGER,
 			message: message
 		}
-		//toast.className = this.props.data.themeName;
 		toast.timeout = 5000;
 		this.toaster.show(toast);
 	}
@@ -238,6 +244,7 @@ class CreateFeaturesPage extends React.Component {
   	toaster: (ref) => (this.toaster = ref),
   };
   render() {
+    console.log(this.state)
     const createComponents = Object.keys(this.state.features).map(id => {
       const feature = this.state.features[id];
       return <CreateSingleFeature 
