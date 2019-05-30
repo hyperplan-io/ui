@@ -13,6 +13,10 @@ function Policy(props) {
       <H3>Policy</H3>
       { (props.policy.class === 'NoAlgorithm' &&
       <Text> This project does not have any algorithms </Text>)}
+      { (props.policy.class === 'DefaultAlgorithm' &&
+      <Text> Serving <b>{props.policy.algorithmId}</b> by default </Text>)}
+      { (props.policy.class === 'WeightedAlgorithm' &&
+      <Text> Weights <b>{JSON.stringify(props.policy.weights)}</b> </Text>)}
     </div>
   )
 }
@@ -59,6 +63,7 @@ class ProjectPage extends React.Component {
             <div>
               <div className="leftPanel">
                 <Button style={ { marginRight: '2em', marginTop: '1em'}} onClick={this.handleCreateAlgorithm} className="rightButton" rightIcon="arrow-right" intent="success">Create a new algorithm</Button>
+          <br/><br/><br/><br/>
               { this.state.project && <Algorithms algorithms={this.state.project.algorithms} />}
               </div>
               <div className="rightPanel">
