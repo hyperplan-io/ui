@@ -204,7 +204,6 @@ class CreateFeaturesPage extends React.Component {
 	}
 
   handleCreateFeatures() {
-    console.log("creating features !")
     const featuresList = Object.keys(this.state.features).map(id => this.state.features[id])
     const payload = {
       id: this.state.id,

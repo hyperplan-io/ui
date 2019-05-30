@@ -41,7 +41,6 @@ class LabelsPage extends React.Component {
   render() {
     let mainContent;
     if(this.state.labels) {
-      console.log(this.state);
       const labelsComponents = this.state.labels.data.map(label=> 
         <Label labels={label}/>
       )

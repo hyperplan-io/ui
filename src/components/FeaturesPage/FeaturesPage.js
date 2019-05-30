@@ -46,11 +46,9 @@ class FeaturesPage extends React.Component {
   render() {
     let mainContent;
     if(this.state.features) {
-      console.log(this.state);
       const featuresComponents = this.state.features.data.map(feature => 
         <Feature features={feature}/>
       )
-      this.state.features.data.forEach(f => console.log(f))
       mainContent = (
         <div>
           <h1> Features </h1>

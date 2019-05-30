@@ -32,7 +32,6 @@ class Projects extends React.Component {
       }).catch((err) => {
         if(err.response) {
           if(err.response.status === 401) {
-            console.log("SHIT FUCK")
             localStorage.setItem('isAuthenticated', false);
           }
         } else if(err.request) {
