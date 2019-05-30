@@ -7,6 +7,7 @@ import FeaturePage from '../FeaturePage/FeaturePage';
 import LabelsPage from '../LabelsPage/LabelsPage';
 import LabelPage from '../LabelPage/LabelPage';
 import CreateFeaturesPage from '../CreateFeaturesPage/CreateFeaturesPage';
+import CreateLabelsPage from '../CreateLabelsPage/CreateLabelsPage';
 
 
 function Main(myProps) {
@@ -44,6 +45,10 @@ function Main(myProps) {
         <Route 
           path='/createFeatures' 
           render={(props) => <CreateFeaturesPage{...props} user={myProps.user} />} 
+        />
+				<Route 
+          path='/createLabels' 
+          render={(props) => <CreateLabelsPage{...props} user={myProps.user} />} 
         />
 			</Switch>
 			</div>

@@ -24,6 +24,7 @@ class LabelsPage extends React.Component {
     this.state = {
       
     }
+    this.handleCreateLabels = this.handleCreateLabels.bind(this);
   }
 
   componentDidMount() {
@@ -36,6 +37,10 @@ class LabelsPage extends React.Component {
 			    labels: r
         });
       });
+  }
+
+  handleCreateLabels() {
+    this.props.history.push('createLabels');
   }
 
   render() {
@@ -56,7 +61,7 @@ class LabelsPage extends React.Component {
 
     return (
       <div>
-        <Button className="rightButton" rightIcon="arrow-right" intent="success">Create</Button>
+        <Button onClick={this.handleCreateLabels} className="rightButton" rightIcon="arrow-right" intent="success">Create</Button>
         { mainContent }
       </div>
     )
