@@ -2,7 +2,7 @@ import React from 'react';
 
 import './ProjectsPage.css';
 import Project from '../Project/Project';
-import { H2 } from "@blueprintjs/core";
+import { Button, H2 } from "@blueprintjs/core";
 
 import axios from 'axios';
 
@@ -13,7 +13,12 @@ class Projects extends React.Component {
 		this.state = {
 			projects: null
 		};
+    this.handleCreateProject = this.handleCreateProject.bind(this);
 	}
+
+  handleCreateProject() {
+    console.log("create project")
+  }
 
 	componentDidMount() {
     const headers = {
@@ -24,12 +29,22 @@ class Projects extends React.Component {
         this.setState( {
 			    projects: r.data
 		    });
-      })
+      }).catch((err) => {
+        if(err.response) {
+          if(err.response.status === 401) {
+            localStorage.setItem('isAuthenticated', false);
+          }
+        } else if(err.request) {
+
+        } else {
+
+        }
+      });
 	}
 
 	render() {
 		const projectComponents = this.state.projects && this.state.projects.map(project => <Project key={project.id} project={project}/>)
-		return (
+		const mainContent = (
 			<div className="test">
 				<H2>Projects</H2>
 				<p>These are your algorithm projects, they regroup algorithm that achieve the same goal and share the same inputs and ouputs</p>
@@ -39,6 +54,12 @@ class Projects extends React.Component {
 
 			</div>
 		)
+    return (
+      <div>
+      <Button onClick={this.handleCreateProject}className="rightButton" rightIcon="arrow-right" intent="success">Create</Button>
+      { mainContent }
+      </div>
+    )
 	}
 	
 }

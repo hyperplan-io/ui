@@ -21,6 +21,16 @@ class FeaturePage extends React.Component {
         this.setState( {
 			    features: r.data
 		    });
+      }).catch((err) => {
+        if(err.response) {
+          if(err.response.status === 401) {
+            localStorage.setItem('isAuthenticated', false);
+          }
+        } else if(err.request) {
+
+        } else {
+
+        }
       });
   }
 
