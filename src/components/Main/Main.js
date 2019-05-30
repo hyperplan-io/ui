@@ -23,7 +23,7 @@ function Main(myProps) {
         />
 				<Route 
           path='/features' 
-          component={FeaturesPage}
+          render={(props) => <FeaturesPage{...props} user={myProps.user} />} 
         />
 			</Switch>
 			</div>
