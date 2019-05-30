@@ -10,7 +10,7 @@ function Feature(props) {
     <Card>
       <div>
         <H5>
-          <a href={`/Features/${props.features.id}`}> { props.features.id}</a>
+          <a href={`/features/${props.features.id}`}> { props.features.id}</a>
         </H5>
       </div>
     </Card>

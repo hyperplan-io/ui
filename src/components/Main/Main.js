@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import ProjectsPage from '../ProjectsPage/ProjectsPage';
 import ProjectPage from '../ProjectPage/ProjectPage';
 import FeaturesPage from '../FeaturesPage/FeaturesPage';
+import FeaturePage from '../FeaturePage/FeaturePage';
 
 
 function Main(myProps) {
@@ -20,6 +21,10 @@ function Main(myProps) {
 				<Route 
           path='/projects'
           render={(props) => <ProjectsPage {...props} user={myProps.user} />} 
+        />
+        <Route 
+          path='/features/:featuresId' 
+          render={(props) => <FeaturePage{...props} user={myProps.user} />} 
         />
 				<Route 
           path='/features' 
