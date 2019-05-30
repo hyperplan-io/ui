@@ -9,7 +9,7 @@ class Project extends React.Component {
 		return (
 			<Card className="projectComponent" {...this.state}>
                     <H5>
-                        <a href="#"> { this.props.project.name}</a>
+                        <a href={`/Projects/${this.props.project.id}`}> { this.props.project.name}</a>
                     </H5>
                     <p>
 											{ this.props.project.description } 

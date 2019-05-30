@@ -75,7 +75,7 @@ class SignIn extends React.Component {
                 inline='true'
                 labelFor="text-input"
               >
-                <InputGroup id='toto' onChange={this.onUsernameChange} className="authenticationField" type="text" id="text-input" placeholder="Username" />
+                <InputGroup onChange={this.onUsernameChange} className="authenticationField" type="text" id="text-input" placeholder="Username" />
                 <InputGroup onChange={this.onPasswordChange} className="authenticationField" type="password" id="text-input" placeholder="Password" />
                 <Button type='submit' className="signInButton" text="Sign in" onClick={this.handleSubmit}/>
               </FormGroup>	
