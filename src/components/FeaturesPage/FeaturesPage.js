@@ -2,7 +2,7 @@ import React from 'react';
 import './FeaturesPage.css';
 import Features from '../Features/Features';
 
-import { Card, H3, H5, Callout, Text, Collapse } from "@blueprintjs/core";
+import { Button, Card, H3, H5, Callout, Text, Collapse } from "@blueprintjs/core";
 import axios from 'axios';
 
 function Feature(props) {
@@ -39,21 +39,30 @@ class FeaturesPage extends React.Component {
   }
 
   render() {
+    let mainContent;
     if(this.state.features) {
       console.log(this.state);
       const featuresComponents = this.state.features.data.map(feature => 
         <Feature features={feature}/>
       )
       this.state.features.data.forEach(f => console.log(f))
-      return (
+      mainContent = (
         <div>
           <h1> Features </h1>
           { featuresComponents}
         </div>
       )
     } else {
-      return <div> </div>
+      mainContent = <div> </div>
     }
+
+    return (
+      <div>
+      <Button className="rightButton" rightIcon="arrow-right" intent="success">Create</Button>
+      { mainContent }
+      </div>
+    )
+    
     
   }
 	
