@@ -4,6 +4,8 @@ import ProjectsPage from '../ProjectsPage/ProjectsPage';
 import ProjectPage from '../ProjectPage/ProjectPage';
 import FeaturesPage from '../FeaturesPage/FeaturesPage';
 import FeaturePage from '../FeaturePage/FeaturePage';
+import LabelsPage from '../LabelsPage/LabelsPage';
+import LabelPage from '../LabelPage/LabelPage';
 
 
 function Main(myProps) {
@@ -29,6 +31,14 @@ function Main(myProps) {
 				<Route 
           path='/features' 
           render={(props) => <FeaturesPage{...props} user={myProps.user} />} 
+        />
+        <Route 
+          path='/labels/:labelsId' 
+          render={(props) => <LabelPage{...props} user={myProps.user} />} 
+        />
+				<Route 
+          path='/labels' 
+          render={(props) => <LabelsPage{...props} user={myProps.user} />} 
         />
 			</Switch>
 			</div>
