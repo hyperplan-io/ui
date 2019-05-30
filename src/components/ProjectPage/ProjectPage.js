@@ -25,7 +25,7 @@ class ProjectPage extends React.Component {
         this.setState( {
 			    project: r.data
 		    });
-      })
+      });
   }
   render() {
     return (
