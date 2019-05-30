@@ -63,7 +63,10 @@ class SignIn extends React.Component {
   }
 
 	render() {
+    console.log(`state of signIn ${JSON.stringify(this.state.user)}`)
+    console.log(`state of signIn ${JSON.stringify(this.state.user.isAuthenticated == true)}`)
       if(this.state.user.isAuthenticated) {
+        console.log("fuck its rendering")
         return <div>
           <Navbar user={this.state.user} />
           <Main user={this.state.user} className="Main"/>

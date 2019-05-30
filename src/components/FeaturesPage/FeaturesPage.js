@@ -24,6 +24,11 @@ class FeaturesPage extends React.Component {
     this.state = {
       
     }
+    this.handleCreateFeatures = this.handleCreateFeatures.bind(this);
+  }
+
+  handleCreateFeatures() {
+    this.props.history.push('createFeatures');
   }
 
   componentDidMount() {
@@ -58,7 +63,7 @@ class FeaturesPage extends React.Component {
 
     return (
       <div>
-      <Button className="rightButton" rightIcon="arrow-right" intent="success">Create</Button>
+      <Button onClick={this.handleCreateFeatures} className="rightButton" rightIcon="arrow-right" intent="success">Create</Button>
       { mainContent }
       </div>
     )

@@ -13,7 +13,12 @@ class Projects extends React.Component {
 		this.state = {
 			projects: null
 		};
+    this.handleCreateProject = this.handleCreateProject.bind(this);
 	}
+
+  handleCreateProject() {
+    console.log("create project")
+  }
 
 	componentDidMount() {
     const headers = {
@@ -24,7 +29,18 @@ class Projects extends React.Component {
         this.setState( {
 			    projects: r.data
 		    });
-      })
+      }).catch((err) => {
+        if(err.response) {
+          if(err.response.status === 401) {
+            console.log("SHIT FUCK")
+            localStorage.setItem('isAuthenticated', false);
+          }
+        } else if(err.request) {
+
+        } else {
+
+        }
+      });
 	}
 
 	render() {
@@ -41,7 +57,7 @@ class Projects extends React.Component {
 		)
     return (
       <div>
-      <Button className="rightButton" rightIcon="arrow-right" intent="success">Create</Button>
+      <Button onClick={this.handleCreateProject}className="rightButton" rightIcon="arrow-right" intent="success">Create</Button>
       { mainContent }
       </div>
     )
