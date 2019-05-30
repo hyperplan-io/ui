@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './Projects.css';
+import './ProjectsPage.css';
 import Project from '../Project/Project';
 import { H2 } from "@blueprintjs/core";
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Projects from '../Projects/Projects';
+import ProjectsPage from '../ProjectsPage/ProjectsPage';
 import Features from '../Features/Features';
 
 
@@ -10,11 +10,11 @@ function Main(myProps) {
 			<Switch >
 				<Route 
           exact path='/' 
-          render={(props) => <Projects {...props} user={myProps.user} />} 
+          render={(props) => <ProjectsPage {...props} user={myProps.user} />} 
         />
 				<Route 
           path='/projects'
-          render={(props) => <Projects {...props} user={myProps.user} />} 
+          render={(props) => <ProjectsPage {...props} user={myProps.user} />} 
         />
 				<Route 
           path='/features' 
