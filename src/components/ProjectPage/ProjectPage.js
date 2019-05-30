@@ -42,8 +42,6 @@ class ProjectPage extends React.Component {
     };
     axios.get(`https://antoine.api.foundaml.org/projects/${projectId}`, { headers: headers })
       .then(r => {
-        console.log('got project !');
-        console.log(r.data);
         this.setState( {
 			    project: r.data
 		    });
@@ -52,8 +50,6 @@ class ProjectPage extends React.Component {
       });
   }
   render() {
-    console.log('algorithms **')
-    console.log(this.state.project);
     return (
       <div>
         { this.state.project && 

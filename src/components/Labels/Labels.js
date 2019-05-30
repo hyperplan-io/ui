@@ -5,7 +5,6 @@ import './Labels.css';
 
 
 function Labels(props) {
-  console.log(props)
   return (
     <Card>
       <div>

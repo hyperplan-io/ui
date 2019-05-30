@@ -10,7 +10,6 @@ class FeaturesTransformerConfiguration extends React.Component {
     this.state = {
       featureTransformationFunction: 'identity'
     }
-    console.log(this.props.project);
     const featureTransformer = {
       signatureName: '',
       fields: this.props.project.configuration.features.data.map(feature => feature.name)

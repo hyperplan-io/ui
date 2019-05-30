@@ -18,7 +18,6 @@ class CreateSingleFeature extends React.Component {
   }
 
   handleFeatureNameChange(event) {
-    console.log(`my id is ${this.props.id}`)
     this.props.handleFeatureNameChange(
       this.props.id,
       event
@@ -26,7 +25,6 @@ class CreateSingleFeature extends React.Component {
   }
 
   handleFeatureDescriptionChange(event) {
-    console.log(`my id is ${this.props.id}`)
     this.props.handleFeatureDescriptionChange(
       this.props.id,
       event
@@ -137,7 +135,6 @@ class CreateFeaturesPage extends React.Component {
     this.setState(prevState => {
       let newFeatures = prevState.features; 
       newFeatures[prevState.nextId] = defaultState;
-      console.log(`newFeatures: ${JSON.stringify(newFeatures)}`)
       return {
         nextId: randomString(),
         features: newFeatures
@@ -244,7 +241,6 @@ class CreateFeaturesPage extends React.Component {
   	toaster: (ref) => (this.toaster = ref),
   };
   render() {
-    console.log(this.state)
     const createComponents = Object.keys(this.state.features).map(id => {
       const feature = this.state.features[id];
       return <CreateSingleFeature 

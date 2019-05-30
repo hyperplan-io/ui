@@ -103,7 +103,6 @@ class CreateAlgorithmPage extends React.Component {
         ]
 	    }
     }
-    console.log(payload)
     axios.post('https://antoine.api.foundaml.org/algorithms', payload, { headers:headers })
       .then(r => {
         this.props.history.push(`/projects/${this.state.projectId}`)
