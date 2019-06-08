@@ -17,43 +17,93 @@ function Main(myProps) {
 			<Switch >
 				<Route 
           exact path='/' 
-          render={(props) => <ProjectsPage {...props} user={myProps.user} />} 
+          render={(props) => 
+            <ProjectsPage {...props} 
+              invalidateToken={myProps.invalidateToken} 
+              user={myProps.user} 
+            />
+          } 
         />
         <Route 
           path='/projects/:projectId'
-          render={(props) => <ProjectPage {...props} user={myProps.user} />} 
+          render={(props) => 
+            <ProjectPage {...props} 
+              invalidateToken={myProps.invalidateToken}
+              user={myProps.user} 
+            />
+          } 
         />
 				<Route 
           path='/projects'
-          render={(props) => <ProjectsPage {...props} user={myProps.user} />} 
+          render={(props) => 
+            <ProjectsPage {...props} 
+              invalidateToken={myProps.invalidateToken}
+              user={myProps.user} 
+            />
+          } 
         />
         <Route 
           path='/features/:featuresId' 
-          render={(props) => <FeaturePage{...props} user={myProps.user} />} 
+          render={(props) => 
+            <FeaturePage{...props} 
+              invalidateToken={myProps.invalidateToken}
+              user={myProps.user} 
+            />
+          } 
         />
 				<Route 
           path='/features' 
-          render={(props) => <FeaturesPage{...props} user={myProps.user} />} 
+          render={(props) => 
+            <FeaturesPage{...props} 
+              invalidateToken={myProps.invalidateToken}
+              user={myProps.user} 
+            />
+          } 
         />
         <Route 
           path='/labels/:labelsId' 
-          render={(props) => <LabelPage{...props} user={myProps.user} />} 
+          render={(props) => 
+            <LabelPage{...props} 
+              invalidateToken={myProps.invalidateToken}
+              user={myProps.user} 
+            />
+          } 
         />
 				<Route 
           path='/labels' 
-          render={(props) => <LabelsPage{...props} user={myProps.user} />} 
+          render={(props) => 
+            <LabelsPage{...props} 
+              invalidateToken={myProps.invalidateToken}
+              user={myProps.user} 
+            />
+          } 
         />
         <Route 
           path='/createFeatures' 
-          render={(props) => <CreateFeaturesPage{...props} user={myProps.user} />} 
+          render={(props) => 
+            <CreateFeaturesPage{...props} 
+              invalidateToken={myProps.invalidateToken}
+              user={myProps.user} 
+            />
+          } 
         />
 				<Route 
           path='/createLabels' 
-          render={(props) => <CreateLabelsPage{...props} user={myProps.user} />} 
+          render={(props) => 
+            <CreateLabelsPage{...props} 
+              invalidateToken={myProps.invalidateToken}
+              user={myProps.user} 
+            />
+          } 
         />
         <Route 
           path='/createAlgorithm' 
-          render={(props) => <CreateAlgorithmPage{...props} user={myProps.user} />} 
+          render={(props) => 
+            <CreateAlgorithmPage{...props} 
+              invalidateToken={myProps.invalidateToken}
+              user={myProps.user} 
+            />
+          } 
         />
 			</Switch>
 			</div>

@@ -1,11 +1,13 @@
 import React from 'react';
-import axios from 'axios';
 
 import { Button, Divider, H2, H3, Text } from "@blueprintjs/core";
 import Features from '../Features/Features';
 import Labels from '../Labels/Labels';
+import CurlExample from '../CurlExample/CurlExample';
 import Algorithms from '../Algorithms/Algorithms';
 import './ProjectPage.css';
+
+import { getProjectById } from '../../utils/Api';
 
 function Policy(props) {
   return (
@@ -37,18 +39,17 @@ class ProjectPage extends React.Component {
 
   componentDidMount() {
     const projectId = this.props.match.params.projectId;
-    const headers = {
-      'Authorization': `Bearer ${this.props.user.accessToken}`
-    };
-    axios.get(`https://antoine.api.foundaml.org/projects/${projectId}`, { headers: headers })
-      .then(r => {
-        this.setState( {
-			    project: r.data
-		    });
-      }).catch( err => {
-        console.log(err);
-      });
+    getProjectById(
+      projectId,
+      this.props.user.accessToken,
+      this.props.invalidateToken
+    ).then(project => {
+      this.setState( {
+        project: project 
+      })
+    })
   }
+
   render() {
     return (
       <div>
@@ -60,12 +61,14 @@ class ProjectPage extends React.Component {
               <div className="leftPanel">
                 <Button style={ { marginRight: '2em', marginTop: '1em'}} onClick={this.handleCreateAlgorithm} className="rightButton" rightIcon="arrow-right" intent="success">Create a new algorithm</Button>
           <br/><br/><br/><br/>
+                <Policy policy={this.state.project.policy}/>    
+                <br/>
+                <CurlExample user={this.props.user} project={this.state.project} />
+                <br/>
               { this.state.project && <Algorithms algorithms={this.state.project.algorithms} />}
               </div>
               <div className="rightPanel">
               <br/>
-                <Policy policy={this.state.project.policy}/>    
-                <br/>
                 <Features features={this.state.project.configuration.features} />
                 <br/>
                 <Labels labels={this.state.project.configuration.labels} />

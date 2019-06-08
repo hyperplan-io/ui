@@ -2,7 +2,7 @@ import React from 'react';
 import { Intent, Toaster, Callout, Text, RadioGroup, Radio, InputGroup, FormGroup, Button, Card, H2, H4 } from "@blueprintjs/core";
 import './CreateFeaturesPage.css';
 
-import axios from 'axios';
+import { createFeatures } from '../../utils/Api';
 
 class CreateSingleFeature extends React.Component {
   constructor(props) {
@@ -104,15 +104,7 @@ function randomString() {
   return Math.random().toString(36).slice(-5)
 }
 
-function computeType(dataType, dimension) {
-    if(dimension === 'One') {
-      return dataType;
-    } else if(dimension === 'Vector') {
-      return `${dataType}Vector`
-    } else if(dimension === 'Float') {
-      return `${dataType}Vector2d`
-    }
-}
+
 class CreateFeaturesPage extends React.Component {
   constructor(props) {
     super(props);
@@ -212,19 +204,21 @@ class CreateFeaturesPage extends React.Component {
       id: this.state.id,
       data: featuresList.map(feature => ({
         name: feature.name, 
-        type: computeType(feature.dataType, feature.dimension),
+        type: feature.dataType, 
+        dimension: feature.dimension,
         description: feature.description
       }))
     }
-    const headers = {
-      'Authorization': `Bearer ${this.props.user.accessToken}`
-    };
-    axios.post('https://antoine.api.foundaml.org/features', payload, { headers:headers })
-      .then(r => {
-        this.props.history.push('/features')
-      }).catch( (err) => {
-					this.showToast("An error occurred while creating the features. Verify");
-      })
+    createFeatures(
+      payload,
+      this.props.user.accessToken,
+      this.props.invalidateToken
+    ).then(res => {
+      this.props.history.push('/features')
+    }).catch( err => {
+      console.log(err)
+	    this.showToast("An error occurred while creating the features. Verify");
+    })
   }
 
   handleOnFeaturesNameChange(event) {

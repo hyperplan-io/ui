@@ -1,7 +1,7 @@
 import React from 'react';
+
 import {FormGroup,InputGroup, Button, H1 } from "@blueprintjs/core";
 import './SignIn.css';
-import axios from 'axios';
 
 import Navbar from '../Navbar/Navbar';
 import Main from '../Main/Main';
@@ -20,12 +20,31 @@ class SignIn extends React.Component {
 		this.handleSubmit = this.handleSubmit.bind(this);	
 		this.onUsernameChange = this.onUsernameChange.bind(this);	
 		this.onPasswordChange = this.onPasswordChange.bind(this);	
+    this.invalidateToken = this.invalidateToken.bind(this);
 	}
 
+  invalidateToken() {
+    console.log('invalidate token')
+    localStorage.setItem('isAuthenticated', false);
+      this.setState ({
+        user: {
+          isAuthenticated: false,
+          accessToken: null
+        }}
+      )
+  }
+
+
 	handleSubmit() {
-    axios.post('https://antoine.api.foundaml.org/authentication', {username: this.state.form.username, password: this.state.form.password})
-      .then(r => {
-        const accessToken = r.data.token;
+    fetch(
+      "/authentication",
+      {
+        method: "POST",
+        body: JSON.stringify({username: this.state.form.username, password: this.state.form.password})
+      }
+    ).then(res => {
+      res.json().then(body => {
+        const accessToken = body.token;
         localStorage.setItem('isAuthenticated', true);
         localStorage.setItem('accessToken', accessToken);
 
@@ -36,7 +55,8 @@ class SignIn extends React.Component {
             accessToken: accessToken
           }
         }));
-    });
+      })
+    })
     
 	}
 
@@ -66,7 +86,7 @@ class SignIn extends React.Component {
       if(this.state.user.isAuthenticated) {
         return <div>
           <Navbar user={this.state.user} />
-          <Main user={this.state.user} className="Main"/>
+          <Main invalidateToken={this.invalidateToken} user={this.state.user} className="Main"/>
 				</div>
       } else {
         return <div className="formPadding">

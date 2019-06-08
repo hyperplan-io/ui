@@ -12,7 +12,9 @@ class FeaturesTransformerConfiguration extends React.Component {
     }
     const featureTransformer = {
       signatureName: '',
-      fields: this.props.project.configuration.features.data.map(feature => feature.name)
+      mapping: Object.assign(...this.props.project.configuration.features.data.map(feature => (
+        { [feature.name]: feature.name}
+      )))
     }
     this.props.featuresTransformerChange(featureTransformer);
   }

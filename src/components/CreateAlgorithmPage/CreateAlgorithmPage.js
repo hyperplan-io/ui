@@ -1,11 +1,12 @@
 import React from 'react';
 
 import { Button, HTMLSelect, RadioGroup, Radio, InputGroup, Card } from "@blueprintjs/core";
-import axios from 'axios';
 
 import TensorFlowBackendConfiguration from '../TensorFlowBackendConfiguration/TensorFlowBackendConfiguration';
 import FeaturesTransformerConfiguration from '../FeaturesTransformerConfiguration/FeaturesTransformerConfiguration';
 import LabelsTransformerConfiguration from '../LabelsTransformerConfiguration/LabelsTransormerConfiguration';
+
+import { createAlgorithm } from '../../utils/Api';
 
 const classificationBackends = [
   'TensorFlowClassificationBackend',
@@ -80,9 +81,7 @@ class CreateAlgorithmPage extends React.Component {
   }
 
   createAlgorithm() {
-    const headers = {
-      'Authorization': `Bearer ${this.props.user.accessToken}`
-    };
+    
     const payload = {
       id: this.state.algorithmId,
       projectId: this.state.projectId,
@@ -103,25 +102,33 @@ class CreateAlgorithmPage extends React.Component {
         ]
 	    }
     }
-    axios.post('https://antoine.api.foundaml.org/algorithms', payload, { headers:headers })
-      .then(r => {
+
+    createAlgorithm(
+      payload,
+      this.props.user.accessToken,
+      this.props.invalidateToken
+    ).then(res => {
         this.props.history.push(`/projects/${this.state.projectId}`)
-      }).catch( (err) => {
-          console.log(err);
-					this.showToast("An error occurred while creating the features. Verify");
-      })
+    })
   }
 
   componentDidMount() {
     const headers = {
       'Authorization': `Bearer ${this.props.user.accessToken}`
     };
-   axios.get(`https://antoine.api.foundaml.org/projects/${this.state.projectId}`, { headers: headers })
-      .then(r => {
+    fetch(
+      `/projects/${this.state.projectId}`,
+      {
+        method: "GET",
+        headers: headers
+      }
+    ).then(res => {
+      res.json().then(body => {
         this.setState( {
-			    project: r.data
+			    project: body
 		    });
-      }); 
+      });
+    });
   }
   
   render() {

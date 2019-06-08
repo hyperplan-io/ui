@@ -1,7 +1,8 @@
 import React from 'react';
-import axios from 'axios';
 
 import Labels from '../Labels/Labels';
+
+import { getLabelsById } from '../../utils/Api';
 
 class LabelPage extends React.Component {
   constructor(props) {
@@ -13,15 +14,15 @@ class LabelPage extends React.Component {
 
   componentDidMount() {
     const labelsId = this.props.match.params.labelsId;
-    const headers = {
-      'Authorization': `Bearer ${this.props.user.accessToken}`
-    };
-    axios.get(`https://antoine.api.foundaml.org/labels/${labelsId}`, { headers: headers })
-      .then(r => {
-        this.setState( {
-			    labels: r.data
-		    });
-      });
+    getLabelsById(
+      labelsId,
+      this.props.user.accessToken,
+      this.props.invalidateToken
+    ).then(label => {
+      this.setState( {
+        labels: label 
+      })
+    })
   }
 
   render() {
