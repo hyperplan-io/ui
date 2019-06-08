@@ -1,7 +1,7 @@
 import React from 'react';
+
 import {FormGroup,InputGroup, Button, H1 } from "@blueprintjs/core";
 import './SignIn.css';
-import axios from 'axios';
 
 import Navbar from '../Navbar/Navbar';
 import Main from '../Main/Main';
@@ -23,9 +23,16 @@ class SignIn extends React.Component {
 	}
 
 	handleSubmit() {
-    axios.post('https://antoine.api.foundaml.org/authentication', {username: this.state.form.username, password: this.state.form.password})
-      .then(r => {
-        const accessToken = r.data.token;
+    fetch(
+      "/authentication",
+      {
+        method: "POST",
+        body: JSON.stringify({username: this.state.form.username, password: this.state.form.password})
+      }
+    ).then(res => {
+      console.log(res.body)
+      res.json().then(body => {
+        const accessToken = body.token;
         localStorage.setItem('isAuthenticated', true);
         localStorage.setItem('accessToken', accessToken);
 
@@ -36,7 +43,8 @@ class SignIn extends React.Component {
             accessToken: accessToken
           }
         }));
-    });
+      })
+    })
     
 	}
 

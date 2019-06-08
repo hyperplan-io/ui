@@ -2,8 +2,6 @@ import React from 'react';
 import { Intent, TagInput, Toaster, Callout, Text, RadioGroup, Radio, InputGroup, Button, H2, H4 } from "@blueprintjs/core";
 import './CreateLabelsPage.css';
 
-import axios from 'axios';
-
 class StaticLabel extends React.Component {
   constructor(props) {
     super(props);
@@ -99,12 +97,18 @@ class CreateLabelsPage extends React.Component {
       'Authorization': `Bearer ${this.props.user.accessToken}`
     };
 
-    axios.post('https://antoine.api.foundaml.org/labels', payload, { headers:headers })
-      .then(r => {
-        this.props.history.push('/labels')
-      }).catch( (err) => {
-					this.showToast("An error occurred while creating the labels. Verify");
-      })
+    fetch(
+      "/labels",
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(payload)
+      }
+    ).then(res => {
+      this.props.history.push('/labels')
+    }).catch( (err) => {
+      this.showToast("An error occurred while creating the labels. Verify");
+    })
   }
 
   handleOnLabelsNameChange(event) {

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Button, HTMLSelect, RadioGroup, Radio, InputGroup, Card } from "@blueprintjs/core";
-import axios from 'axios';
 
 import TensorFlowBackendConfiguration from '../TensorFlowBackendConfiguration/TensorFlowBackendConfiguration';
 import FeaturesTransformerConfiguration from '../FeaturesTransformerConfiguration/FeaturesTransformerConfiguration';
@@ -103,25 +102,44 @@ class CreateAlgorithmPage extends React.Component {
         ]
 	    }
     }
-    axios.post('https://antoine.api.foundaml.org/algorithms', payload, { headers:headers })
-      .then(r => {
+
+    fetch(
+      "/algorithms",
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(payload)
+      }
+    ).then(res => {
+      console.log(res)
+      res.json.then(body => {
+        console.log(body)
         this.props.history.push(`/projects/${this.state.projectId}`)
-      }).catch( (err) => {
-          console.log(err);
-					this.showToast("An error occurred while creating the features. Verify");
       })
+    }).catch( (err) => {
+      console.log(err);
+    })
   }
 
   componentDidMount() {
     const headers = {
       'Authorization': `Bearer ${this.props.user.accessToken}`
     };
-   axios.get(`https://antoine.api.foundaml.org/projects/${this.state.projectId}`, { headers: headers })
-      .then(r => {
+    fetch(
+      `/projects/${this.state.projectId}`,
+      {
+        method: "GET",
+        headers: headers
+      }
+    ).then(res => {
+      res.json().then(body => {
+        console.log("got project")
+        console.log(body)
         this.setState( {
-			    project: r.data
+			    project: body
 		    });
-      }); 
+      });
+    });
   }
   
   render() {

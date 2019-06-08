@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 
 import { Button, Divider, H2, H3, Text } from "@blueprintjs/core";
 import Features from '../Features/Features';
@@ -40,14 +39,19 @@ class ProjectPage extends React.Component {
     const headers = {
       'Authorization': `Bearer ${this.props.user.accessToken}`
     };
-    axios.get(`https://antoine.api.foundaml.org/projects/${projectId}`, { headers: headers })
-      .then(r => {
+    fetch(
+      `/projects/${projectId}`,
+      {
+        headers: headers,
+        method: "GET",
+      }
+    ).then(res => {
+      res.json().then(body => {
         this.setState( {
-			    project: r.data
-		    });
-      }).catch( err => {
-        console.log(err);
-      });
+          project: body
+        })
+      })
+    })
   }
   render() {
     return (

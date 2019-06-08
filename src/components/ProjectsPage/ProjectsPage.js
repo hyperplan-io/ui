@@ -1,10 +1,9 @@
 import React from 'react';
 
+
 import './ProjectsPage.css';
 import Project from '../Project/Project';
 import { Button, H2 } from "@blueprintjs/core";
-
-import axios from 'axios';
 
 class Projects extends React.Component {
 
@@ -24,12 +23,20 @@ class Projects extends React.Component {
     const headers = {
       'Authorization': `Bearer ${this.props.user.accessToken}`
     };
-    axios.get('https://antoine.api.foundaml.org/projects', { headers: headers })
-      .then(r => {
+    
+    fetch(
+      "/projects",
+      {
+        headers: headers,
+        method: "GET",
+      }
+    ).then(res => {
+      res.json().then(body => {
         this.setState( {
-			    projects: r.data
-		    });
-      }).catch((err) => {
+          projects: body
+        })
+      })
+    }).catch((err) => {
         if(err.response) {
           if(err.response.status === 401) {
             localStorage.setItem('isAuthenticated', false);

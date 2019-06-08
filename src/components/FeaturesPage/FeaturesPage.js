@@ -1,7 +1,6 @@
 import React from 'react';
 import './FeaturesPage.css';
 import { Button, Card, H5 } from "@blueprintjs/core";
-import axios from 'axios';
 
 function Feature(props) {
   return (
@@ -33,18 +32,26 @@ class FeaturesPage extends React.Component {
     const headers = {
       'Authorization': `Bearer ${this.props.user.accessToken}`
     };
-    axios.get(`https://antoine.api.foundaml.org/features`, { headers: headers })
-      .then(r => {
+    fetch(
+      "/features",
+      {
+        headers: headers,
+        method: "GET",
+      }
+    ).then(res => {
+      res.json().then(body => {
+        console.log(body)
         this.setState( {
-			    features: r
-        });
-      });
+          features: body
+        })
+      })
+    })
   }
 
   render() {
     let mainContent;
     if(this.state.features) {
-      const featuresComponents = this.state.features.data.map(feature => 
+      const featuresComponents = this.state.features.map(feature => 
         <Feature features={feature}/>
       )
       mainContent = (

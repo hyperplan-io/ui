@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 
 import Features from '../Features/Features';
 
@@ -16,12 +15,20 @@ class FeaturePage extends React.Component {
     const headers = {
       'Authorization': `Bearer ${this.props.user.accessToken}`
     };
-    axios.get(`https://antoine.api.foundaml.org/features/${featuresId}`, { headers: headers })
-      .then(r => {
+    fetch(
+      `/features/${featuresId}`,
+      {
+        headers: headers,
+        method: "GET",
+      }
+    ).then(res => {
+      res.json().then(body => {
+        console.log(body)
         this.setState( {
-			    features: r.data
-		    });
-      }).catch((err) => {
+          features: body
+        })
+      })
+    }).catch((err) => {
         if(err.response) {
           if(err.response.status === 401) {
             localStorage.setItem('isAuthenticated', false);

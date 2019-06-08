@@ -1,7 +1,6 @@
 import React from 'react';
 import './LabelsPage.css';
 import { Button, Card, H5 } from "@blueprintjs/core";
-import axios from 'axios';
 
 function Label(props) {
   return (
@@ -29,12 +28,20 @@ class LabelsPage extends React.Component {
     const headers = {
       'Authorization': `Bearer ${this.props.user.accessToken}`
     };
-    axios.get(`https://antoine.api.foundaml.org/labels`, { headers: headers })
-      .then(r => {
+    fetch(
+      "/labels",
+      {
+        headers: headers,
+        method: "GET",
+      }
+    ).then(res => {
+      res.json().then(body => {
+        console.log(body)
         this.setState( {
-			    labels: r
-        });
-      });
+          labels: body
+        })
+      })
+    });
   }
 
   handleCreateLabels() {
@@ -44,7 +51,7 @@ class LabelsPage extends React.Component {
   render() {
     let mainContent;
     if(this.state.labels) {
-      const labelsComponents = this.state.labels.data.map(label=> 
+      const labelsComponents = this.state.labels.map(label=> 
         <Label labels={label}/>
       )
       mainContent = (

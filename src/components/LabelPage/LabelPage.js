@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 
 import Labels from '../Labels/Labels';
 
@@ -16,12 +15,19 @@ class LabelPage extends React.Component {
     const headers = {
       'Authorization': `Bearer ${this.props.user.accessToken}`
     };
-    axios.get(`https://antoine.api.foundaml.org/labels/${labelsId}`, { headers: headers })
-      .then(r => {
+    fetch(
+      `/labels/${labelsId}`,
+      {
+        headers: headers,
+        method: "GET",
+      }
+    ).then(res => {
+      res.json().then(body => {
         this.setState( {
-			    labels: r.data
-		    });
-      });
+          labels: body
+        })
+      })
+    });
   }
 
   render() {
