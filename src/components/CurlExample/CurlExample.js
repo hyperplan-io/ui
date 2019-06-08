@@ -1,6 +1,7 @@
 import React from 'react';
 
 import './CurlExample.css';
+import { H3 } from "@blueprintjs/core";
 import {Callout} from '@blueprintjs/core';
 
 function generateFeatures(project) {
@@ -52,11 +53,14 @@ function CurlExample(props) {
   const code = ` curl -X POST ${host}/predictions -H 'Content-Type: application/json' -H 'cache-control: no-cache' -H 'Authorization: Bearer ${props.user.accessToken}' -d '${JSON.stringify(data, null, 2)}'
   `
   return (
+    <div>
+    <H3>Code sample</H3>
     <Callout>
     <code>
       ${code}
     </code>
     </Callout>
+    </div>
   )
 }
 
