@@ -63,7 +63,7 @@ class ProjectPage extends React.Component {
           <br/><br/><br/><br/>
                 <Policy policy={this.state.project.policy}/>    
                 <br/>
-                <CurlExample project={this.state.project} />
+                <CurlExample user={this.props.user} project={this.state.project} />
                 <br/>
               { this.state.project && <Algorithms algorithms={this.state.project.algorithms} />}
               </div>

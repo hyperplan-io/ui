@@ -43,17 +43,13 @@ function generateFeatures(project) {
 
 function CurlExample(props) {
   const project = props.project;
-  const host = '127.0.0.1'
+  const host = 'http://127.0.0.1:8080'
   const features = generateFeatures(project)
   const data = {
     projectId: project.id,
     features: features
   }
-  const code = ` curl -X POST \\ 
-    ${host}/predictions \\ 
-    -H 'Content-Type: application/json' \\
-    -H 'cache-control: no-cache' \\
-    -d '${JSON.stringify(data, null, 2)}'
+  const code = ` curl -X POST ${host}/predictions -H 'Content-Type: application/json' -H 'cache-control: no-cache' -H 'Authorization: Bearer ${props.user.accessToken}' -d '${JSON.stringify(data, null, 2)}'
   `
   return (
     <Callout>
