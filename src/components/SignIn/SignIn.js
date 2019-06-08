@@ -30,7 +30,6 @@ class SignIn extends React.Component {
         body: JSON.stringify({username: this.state.form.username, password: this.state.form.password})
       }
     ).then(res => {
-      console.log(res.body)
       res.json().then(body => {
         const accessToken = body.token;
         localStorage.setItem('isAuthenticated', true);

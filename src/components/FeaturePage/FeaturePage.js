@@ -23,7 +23,6 @@ class FeaturePage extends React.Component {
       }
     ).then(res => {
       res.json().then(body => {
-        console.log(body)
         this.setState( {
           features: body
         })

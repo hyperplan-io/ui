@@ -111,7 +111,6 @@ class CreateAlgorithmPage extends React.Component {
         body: JSON.stringify(payload)
       }
     ).then(res => {
-      console.log(res)
       res.json.then(body => {
         console.log(body)
         this.props.history.push(`/projects/${this.state.projectId}`)
@@ -133,8 +132,6 @@ class CreateAlgorithmPage extends React.Component {
       }
     ).then(res => {
       res.json().then(body => {
-        console.log("got project")
-        console.log(body)
         this.setState( {
 			    project: body
 		    });
