@@ -2,6 +2,8 @@ import React from 'react';
 import { Intent, Toaster, Callout, Text, RadioGroup, Radio, InputGroup, FormGroup, Button, Card, H2, H4 } from "@blueprintjs/core";
 import './CreateFeaturesPage.css';
 
+import { createFeatures } from '../../utils/Api';
+
 class CreateSingleFeature extends React.Component {
   constructor(props) {
     super(props);
@@ -207,16 +209,10 @@ class CreateFeaturesPage extends React.Component {
         description: feature.description
       }))
     }
-    const headers = {
-      'Authorization': `Bearer ${this.props.user.accessToken}`
-    };
-    fetch(
-      "/features",
-      {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(payload)
-      }
+    createFeatures(
+      payload,
+      this.props.user.accessToken,
+      this.props.invalidateToken
     ).then(res => {
       this.props.history.push('/features')
     }).catch( err => {

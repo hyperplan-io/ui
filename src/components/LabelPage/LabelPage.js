@@ -2,6 +2,8 @@ import React from 'react';
 
 import Labels from '../Labels/Labels';
 
+import { getLabelsById } from '../../utils/Api';
+
 class LabelPage extends React.Component {
   constructor(props) {
     super(props)
@@ -12,22 +14,15 @@ class LabelPage extends React.Component {
 
   componentDidMount() {
     const labelsId = this.props.match.params.labelsId;
-    const headers = {
-      'Authorization': `Bearer ${this.props.user.accessToken}`
-    };
-    fetch(
-      `/labels/${labelsId}`,
-      {
-        headers: headers,
-        method: "GET",
-      }
-    ).then(res => {
-      res.json().then(body => {
-        this.setState( {
-          labels: body
-        })
+    getLabelsById(
+      labelsId,
+      this.props.user.accessToken,
+      this.props.invalidateToken
+    ).then(label => {
+      this.setState( {
+        labels: label 
       })
-    });
+    })
   }
 
   render() {

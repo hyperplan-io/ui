@@ -2,6 +2,8 @@ import React from 'react';
 import './FeaturesPage.css';
 import { Button, Card, H5 } from "@blueprintjs/core";
 
+import { getFeatures }  from '../../utils/Api';
+
 function Feature(props) {
   return (
     <Card>
@@ -29,20 +31,12 @@ class FeaturesPage extends React.Component {
   }
 
   componentDidMount() {
-    const headers = {
-      'Authorization': `Bearer ${this.props.user.accessToken}`
-    };
-    fetch(
-      "/features",
-      {
-        headers: headers,
-        method: "GET",
-      }
-    ).then(res => {
-      res.json().then(body => {
-        this.setState( {
-          features: body
-        })
+    getFeatures(
+      this.props.user.accessToken,
+      this.props.invalidateToken
+    ).then( features => {
+      this.setState( {
+        features: features
       })
     })
   }

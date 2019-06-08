@@ -1,9 +1,10 @@
 import React from 'react';
 
-
 import './ProjectsPage.css';
 import Project from '../Project/Project';
 import { Button, H2 } from "@blueprintjs/core";
+
+import { getProjects } from '../../utils/Api';
 
 class Projects extends React.Component {
 
@@ -20,43 +21,14 @@ class Projects extends React.Component {
   }
 
 	componentDidMount() {
-    const headers = {
-      'Authorization': `Bearer ${this.props.user.accessToken}`
-    };
-    
-    fetch(
-      "/projects",
-      {
-        headers: headers,
-        method: "GET",
-      }
-    ).then(res => {
-      if(res.status === 401) {
-        console.log('error 401')
-        console.log(this.props)
-        this.props.invalidateToken()
-        console.log('after')
-      } else {
-        res.json().then(body => {
-          this.setState( {
-            projects: body
-          })
-        })
-      }
-      
-    }).catch((err) => {
-
-        if(err.response) {
-          if(err.response.status === 401) {
-            localStorage.setItem('isAuthenticated', false);
-            this.props.invalidateToken()
-          }
-        } else if(err.request) {
-
-        } else {
-
-        }
+    getProjects(
+      this.props.user.accessToken, 
+      this.props.invalidateToken
+    ).then(projects => {
+      this.setState( {
+        projects: projects
       });
+    })
 	}
 
 	render() {

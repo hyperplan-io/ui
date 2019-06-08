@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Features from '../Features/Features';
+import { getFeaturesById }  from '../../utils/Api';
 
 class FeaturePage extends React.Component {
   constructor(props) {
@@ -12,32 +13,15 @@ class FeaturePage extends React.Component {
 
   componentDidMount() {
     const featuresId = this.props.match.params.featuresId;
-    const headers = {
-      'Authorization': `Bearer ${this.props.user.accessToken}`
-    };
-    fetch(
-      `/features/${featuresId}`,
-      {
-        headers: headers,
-        method: "GET",
-      }
-    ).then(res => {
-      res.json().then(body => {
-        this.setState( {
-          features: body
-        })
+    getFeaturesById(
+      featuresId, 
+      this.props.user.accessToken, 
+      this.props.invalidateToken
+    ).then(features => {
+      this.setState( {
+        features: features 
       })
-    }).catch((err) => {
-        if(err.response) {
-          if(err.response.status === 401) {
-            localStorage.setItem('isAuthenticated', false);
-          }
-        } else if(err.request) {
-
-        } else {
-
-        }
-      });
+    });
   }
 
   render() {

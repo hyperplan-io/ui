@@ -6,6 +6,8 @@ import TensorFlowBackendConfiguration from '../TensorFlowBackendConfiguration/Te
 import FeaturesTransformerConfiguration from '../FeaturesTransformerConfiguration/FeaturesTransformerConfiguration';
 import LabelsTransformerConfiguration from '../LabelsTransformerConfiguration/LabelsTransormerConfiguration';
 
+import { createAlgorithm } from '../../utils/Api';
+
 const classificationBackends = [
   'TensorFlowClassificationBackend',
 ]
@@ -79,9 +81,7 @@ class CreateAlgorithmPage extends React.Component {
   }
 
   createAlgorithm() {
-    const headers = {
-      'Authorization': `Bearer ${this.props.user.accessToken}`
-    };
+    
     const payload = {
       id: this.state.algorithmId,
       projectId: this.state.projectId,
@@ -103,20 +103,12 @@ class CreateAlgorithmPage extends React.Component {
 	    }
     }
 
-    fetch(
-      "/algorithms",
-      {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(payload)
-      }
+    createAlgorithm(
+      payload,
+      this.props.user.accessToken,
+      this.props.invalidateToken
     ).then(res => {
-      res.json.then(body => {
-        console.log(body)
         this.props.history.push(`/projects/${this.state.projectId}`)
-      })
-    }).catch( (err) => {
-      console.log(err);
     })
   }
 

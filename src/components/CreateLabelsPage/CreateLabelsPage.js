@@ -2,6 +2,8 @@ import React from 'react';
 import { Intent, TagInput, Toaster, Callout, Text, RadioGroup, Radio, InputGroup, Button, H2, H4 } from "@blueprintjs/core";
 import './CreateLabelsPage.css';
 
+import { createLabels } from '../../utils/Api';
+
 class StaticLabel extends React.Component {
   constructor(props) {
     super(props);
@@ -93,18 +95,12 @@ class CreateLabelsPage extends React.Component {
       }
       
     }
-    const headers = {
-      'Authorization': `Bearer ${this.props.user.accessToken}`
-    };
 
-    fetch(
-      "/labels",
-      {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(payload)
-      }
-    ).then(res => {
+    createLabels(
+      payload,
+      this.props.user.accessToken,
+      this.props.invalidateToken
+    ).then(label => {
       this.props.history.push('/labels')
     }).catch( (err) => {
       this.showToast("An error occurred while creating the labels. Verify");

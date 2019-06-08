@@ -2,6 +2,8 @@ import React from 'react';
 import './LabelsPage.css';
 import { Button, Card, H5 } from "@blueprintjs/core";
 
+import { getLabels } from '../../utils/Api';
+
 function Label(props) {
   return (
     <Card>
@@ -25,23 +27,14 @@ class LabelsPage extends React.Component {
   }
 
   componentDidMount() {
-    const headers = {
-      'Authorization': `Bearer ${this.props.user.accessToken}`
-    };
-    fetch(
-      "/labels",
-      {
-        headers: headers,
-        method: "GET",
-      }
-    ).then(res => {
-      res.json().then(body => {
-        console.log(body)
-        this.setState( {
-          labels: body
-        })
+    getLabels(
+      this.props.user.accessToken,
+      this.invalidateToken
+    ).then(labels => {
+      this.setState( {
+        labels: labels 
       })
-    });
+    })
   }
 
   handleCreateLabels() {
