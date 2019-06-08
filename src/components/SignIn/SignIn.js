@@ -20,7 +20,20 @@ class SignIn extends React.Component {
 		this.handleSubmit = this.handleSubmit.bind(this);	
 		this.onUsernameChange = this.onUsernameChange.bind(this);	
 		this.onPasswordChange = this.onPasswordChange.bind(this);	
+    this.invalidateToken = this.invalidateToken.bind(this);
 	}
+
+  invalidateToken() {
+    console.log('invalidate token')
+    localStorage.setItem('isAuthenticated', false);
+      this.setState ({
+        user: {
+          isAuthenticated: false,
+          accessToken: null
+        }}
+      )
+  }
+
 
 	handleSubmit() {
     fetch(
@@ -73,7 +86,7 @@ class SignIn extends React.Component {
       if(this.state.user.isAuthenticated) {
         return <div>
           <Navbar user={this.state.user} />
-          <Main user={this.state.user} className="Main"/>
+          <Main invalidateToken={this.invalidateToken} user={this.state.user} className="Main"/>
 				</div>
       } else {
         return <div className="formPadding">

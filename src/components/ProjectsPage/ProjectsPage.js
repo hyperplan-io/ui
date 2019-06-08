@@ -31,15 +31,25 @@ class Projects extends React.Component {
         method: "GET",
       }
     ).then(res => {
-      res.json().then(body => {
-        this.setState( {
-          projects: body
+      if(res.status === 401) {
+        console.log('error 401')
+        console.log(this.props)
+        this.props.invalidateToken()
+        console.log('after')
+      } else {
+        res.json().then(body => {
+          this.setState( {
+            projects: body
+          })
         })
-      })
+      }
+      
     }).catch((err) => {
+
         if(err.response) {
           if(err.response.status === 401) {
             localStorage.setItem('isAuthenticated', false);
+            this.props.invalidateToken()
           }
         } else if(err.request) {
 

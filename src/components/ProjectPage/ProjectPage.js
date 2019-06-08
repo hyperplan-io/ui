@@ -64,12 +64,12 @@ class ProjectPage extends React.Component {
               <div className="leftPanel">
                 <Button style={ { marginRight: '2em', marginTop: '1em'}} onClick={this.handleCreateAlgorithm} className="rightButton" rightIcon="arrow-right" intent="success">Create a new algorithm</Button>
           <br/><br/><br/><br/>
+                <Policy policy={this.state.project.policy}/>    
+                <br/>
               { this.state.project && <Algorithms algorithms={this.state.project.algorithms} />}
               </div>
               <div className="rightPanel">
               <br/>
-                <Policy policy={this.state.project.policy}/>    
-                <br/>
                 <Features features={this.state.project.configuration.features} />
                 <br/>
                 <Labels labels={this.state.project.configuration.labels} />
