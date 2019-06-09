@@ -26,7 +26,6 @@ class CreateAlgorithmPage extends React.Component {
 
     this.state = {
       projectId: params.get('projectId'),
-      backend: 'TensorFlowClassificationBackend',
       backendConfiguration: {},
     };
   }
@@ -39,6 +38,8 @@ class CreateAlgorithmPage extends React.Component {
     ).then(project => {
       this.setState({
         project: project,
+        backend:
+          project.problem === 'classification' ? classificationBackends[0] : regressionBackends[0],
       });
     });
   }

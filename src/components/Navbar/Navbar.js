@@ -39,7 +39,7 @@ class MyNavbar extends React.Component {
         {this.props.user.isAuthenticated && (
           <Navbar className="bp3-dark" style={{ position: 'fixed', top: 0 }}>
             <NavbarGroup align={Alignment.RIGHT}>
-              <NavbarHeading>FoundaMl</NavbarHeading>
+              <NavbarHeading>hyperplan.io</NavbarHeading>
               <NavbarDivider />
               <Button
                 className={Classes.MINIMAL}
