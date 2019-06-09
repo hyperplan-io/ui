@@ -6,6 +6,8 @@ import './SignIn.css';
 import Navbar from '../Navbar/Navbar';
 import Main from '../Main/Main';
 
+import { signIn } from '../../utils/Api';
+
 class SignIn extends React.Component {
   constructor(props) {
     super(props);
@@ -33,26 +35,18 @@ class SignIn extends React.Component {
 
   handleSubmit() {
     console.log('hello submit');
-    fetch('/authentication', {
-      method: 'POST',
-      body: JSON.stringify({
-        username: this.state.form.username,
-        password: this.state.form.password,
-      }),
-    }).then(res => {
-      res.json().then(body => {
-        const accessToken = body.token;
-        localStorage.setItem('isAuthenticated', true);
-        localStorage.setItem('accessToken', accessToken);
+    signIn(this.state.form.username, this.state.form.password).then(body => {
+      const accessToken = body.token;
+      localStorage.setItem('isAuthenticated', true);
+      localStorage.setItem('accessToken', accessToken);
 
-        this.setState(prevState => ({
-          form: prevState.form,
-          user: {
-            isAuthenticated: true,
-            accessToken: accessToken,
-          },
-        }));
-      });
+      this.setState(prevState => ({
+        form: prevState.form,
+        user: {
+          isAuthenticated: true,
+          accessToken: accessToken,
+        },
+      }));
     });
   }
 
@@ -92,7 +86,12 @@ class SignIn extends React.Component {
           <FormGroup className="MyForm" inline="true" labelFor="text-input">
             <Card>
               <H1 className="formTitle"> hyperplan.io </H1>
-              <form onSubmit={this.handleSubmit}>
+              <form
+                onSubmit={e => {
+                  e.preventDefault();
+                  this.handleSubmit();
+                }}
+              >
                 <InputGroup
                   onChange={this.onUsernameChange}
                   className="authenticationField"
