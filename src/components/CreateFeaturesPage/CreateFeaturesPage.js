@@ -1,8 +1,8 @@
 import React from 'react'; 
-import { Intent, Toaster, Callout, Text, RadioGroup, Radio, InputGroup, FormGroup, Button, Card, H2, H4 } from "@blueprintjs/core";
+import { Intent, Toaster, Callout, Text, RadioGroup, Radio, InputGroup, FormGroup, Button, Card, H2, H4, HTMLSelect } from "@blueprintjs/core";
 import './CreateFeaturesPage.css';
 
-import { createFeatures } from '../../utils/Api';
+import { getFeatures, createFeatures } from '../../utils/Api';
 
 class CreateSingleFeature extends React.Component {
   constructor(props) {
@@ -11,9 +11,11 @@ class CreateSingleFeature extends React.Component {
 		this.handleDimensionChange = this.handleDimensionChange.bind(this);
 		this.handleFeatureNameChange = this.handleFeatureNameChange.bind(this);
 		this.handleFeatureDescriptionChange = this.handleFeatureDescriptionChange.bind(this);
+    this.handleReferenceFeatureChange = this.handleReferenceFeatureChange.bind(this);
     this.state = {
       currentType: "String",
-      currentDimension: "One"
+      currentDimension: "One",
+      referenceValue: ''
     }
   }
 
@@ -35,7 +37,7 @@ class CreateSingleFeature extends React.Component {
     const newValue = event.target.value;
     this.props.handleDataTypeChange(
       this.props.id,
-      event
+      newValue 
     )
     this.setState(prevState => (
       {
@@ -49,7 +51,7 @@ class CreateSingleFeature extends React.Component {
     const newValue = event.target.value;
     this.props.handleDimensionChange(
       this.props.id,
-      event
+      newValue 
     )
     this.setState(prevState => (
       {
@@ -59,7 +61,43 @@ class CreateSingleFeature extends React.Component {
     ));
   }
 
+  handleReferenceFeatureChange(event) {
+    const referenceValue = event.target.value;
+    this.setState({
+      referenceValue: referenceValue,
+      currentDimension: 'One'
+    });
+    this.props.handleDataTypeChange(
+      this.props.id,
+      referenceValue 
+    );
+  }
+
   render() {
+    let dimensionComponents;
+    if(this.state.currentType === 'Reference') {
+      const features = this.props.otherFeatures.map(feature => feature.id)
+      dimensionComponents = (
+        <HTMLSelect
+          options={features}
+          onChange={this.handleReferenceFeatureChange}
+          value={this.state.referenceValue} >
+        </HTMLSelect>
+      )
+    } else {
+      dimensionComponents = (
+          <RadioGroup
+						label="Dimension"
+            inline='true'
+						onChange={this.handleDimensionChange}
+						selectedValue={this.state.currentDimension}
+				  >
+          <Radio label="One" value="One" />
+          <Radio label="Vector" value="Vector" />
+          <Radio label="Matrix" value="Matrix" />
+				</RadioGroup>
+      )
+    }
     return (
       <div className="createFeatureDiv">
         <Card>
@@ -69,7 +107,7 @@ class CreateSingleFeature extends React.Component {
           <InputGroup onChange={this.handleFeatureDescriptionChange} id="text-input" placeholder="Description" />
           <br/>
 					<RadioGroup
-						label="Type"
+tring 
             inline='true'
 						onChange={this.handleDataTypeChange}
 						selectedValue={this.state.currentType}
@@ -77,17 +115,9 @@ class CreateSingleFeature extends React.Component {
 							<Radio label="String" value="String" />
 							<Radio label="Integer" value="Integer" />
 							<Radio label="Float" value="Float" />
+							<Radio label="Reference" value="Reference" />
 					</RadioGroup>
-          <RadioGroup
-						label="Dimension"
-            inline='true'
-						onChange={this.handleDimensionChange}
-						selectedValue={this.state.currentDimension}
-						>
-							<Radio label="One" value="One" />
-							<Radio label="Vector" value="Vector" />
-							<Radio label="Matrix" value="Matrix" />
-					</RadioGroup>
+          {dimensionComponents}	
         </FormGroup>
       </Card>
       </div>
@@ -123,6 +153,15 @@ class CreateFeaturesPage extends React.Component {
     this.handleOnFeaturesNameChange = this.handleOnFeaturesNameChange.bind(this);
   }
 
+  componentDidMount() {
+    getFeatures(this.props.user.accessToken, this.props.invalidateToken)
+      .then(features => {
+        this.setState({
+          otherFeatures: features
+        })
+      })
+  }
+
 	handleNewFeature() {
     this.setState(prevState => {
       let newFeatures = prevState.features; 
@@ -134,8 +173,7 @@ class CreateFeaturesPage extends React.Component {
     })
 	}	
 
-  handleDataTypeChange(id, event) {
-    const newType = event.target.value;
+  handleDataTypeChange(id, newType) {
     this.setState(prevState => {
       let newFeature = prevState.features;
       newFeature[id].dataType = newType;
@@ -146,8 +184,7 @@ class CreateFeaturesPage extends React.Component {
     });
   }
 
-  handleDimensionChange(id, event) {
-    const newDimension = event.target.value;
+  handleDimensionChange(id, newDimension) {
     this.setState(prevState => {
       const newFeature = { ...prevState.features[id], ...{ dimension : newDimension}}
       const newFeatures = {...prevState.features, ...{ [id]: newFeature}}
@@ -235,7 +272,7 @@ class CreateFeaturesPage extends React.Component {
   	toaster: (ref) => (this.toaster = ref),
   };
   render() {
-    const createComponents = Object.keys(this.state.features).map(id => {
+    const createComponents = this.state.otherFeatures && Object.keys(this.state.features).map(id => {
       const feature = this.state.features[id];
       return <CreateSingleFeature 
         id={id} 
@@ -244,6 +281,7 @@ class CreateFeaturesPage extends React.Component {
         handleDataTypeChange={this.handleDataTypeChange} 
         handleDimensionChange={this.handleDimensionChange} 
         feature={feature}
+        otherFeatures={this.state.otherFeatures}
       />  
     })
     return (

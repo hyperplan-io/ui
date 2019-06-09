@@ -1,27 +1,14 @@
 import React from 'react';
 
-import { Button, Divider, H2, H3, Text } from "@blueprintjs/core";
+import { Button, Divider, H2 } from "@blueprintjs/core";
 import Features from '../Features/Features';
 import Labels from '../Labels/Labels';
+import Policy from '../Policy/Policy';
 import CurlExample from '../CurlExample/CurlExample';
 import Algorithms from '../Algorithms/Algorithms';
 import './ProjectPage.css';
 
 import { getProjectById } from '../../utils/Api';
-
-function Policy(props) {
-  return (
-    <div>
-      <H3>Policy</H3>
-      { (props.policy.class === 'NoAlgorithm' &&
-      <Text> This project does not have any algorithms </Text>)}
-      { (props.policy.class === 'DefaultAlgorithm' &&
-      <Text> Serving <b>{props.policy.algorithmId}</b> by default </Text>)}
-      { (props.policy.class === 'WeightedAlgorithm' &&
-      <Text> Weights <b>{JSON.stringify(props.policy.weights)}</b> </Text>)}
-    </div>
-  )
-}
 
 class ProjectPage extends React.Component {
 
@@ -61,7 +48,14 @@ class ProjectPage extends React.Component {
               <div className="leftPanel">
                 <Button style={ { marginRight: '2em', marginTop: '1em'}} onClick={this.handleCreateAlgorithm} className="rightButton" rightIcon="arrow-right" intent="success">Create a new algorithm</Button>
           <br/><br/><br/><br/>
-                <Policy policy={this.state.project.policy}/>    
+                <Policy 
+                  user={this.props.user} 
+                  invalidateToken={this.props.invalidateToken} 
+                  projectId={this.state.project.id} 
+                  algorithms={this.state.project.algorithms} 
+                  policy={this.state.project.policy}
+                  history={this.props.history} 
+                />    
                 <br/>
                 <CurlExample user={this.props.user} project={this.state.project} />
                 <br/>

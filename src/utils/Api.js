@@ -136,7 +136,7 @@ export function createFeatures(payload, accessToken, invalidateToken) {
   const headers = {
     'Authorization': `Bearer ${accessToken}`
   };
-  fetch(
+  return fetch(
     "/features",
     {
       method: "POST",
@@ -156,10 +156,29 @@ export function createLabels(payload, accessToken, invalidateToken) {
   const headers = {
     'Authorization': `Bearer ${accessToken}`
   };
-  fetch(
+  return fetch(
     "/labels",
     {
       method: "POST",
+      headers: headers,
+      body: JSON.stringify(payload)
+    }
+  ).then (res => {
+    if(res.status === 401) {
+      invalidateToken();
+    } else if(res.status === 200) {
+      return res.json()
+    }
+  })
+}
+export function patchProject(projectId, payload, accessToken, invalidateToken) {
+  const headers = {
+    'Authorization': `Bearer ${accessToken}`
+  };
+  return fetch(
+    `/projects/${projectId}`,
+    {
+      method: "PATCH",
       headers: headers,
       body: JSON.stringify(payload)
     }

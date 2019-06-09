@@ -1,0 +1,18 @@
+
+.policyType {
+  display: inline-block;
+}
+
+.policySettings {
+  display: inline-block;
+  margin-left: 2em;
+}
+
+.policyUpdate{
+  display: inline-block;
+  margin-left: 2em;
+}
+
+.algorithmWeightField {
+  display: inline-block;
+}
