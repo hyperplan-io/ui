@@ -98,6 +98,7 @@ export function createAlgorithm(payload, accessToken, invalidateToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
   };
+  console.log(payload);
   return fetch('/algorithms', {
     method: 'POST',
     headers: headers,

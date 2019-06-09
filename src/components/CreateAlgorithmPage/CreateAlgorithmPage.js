@@ -88,6 +88,12 @@ class CreateAlgorithmPage extends React.Component {
   }
 
   createAlgorithm() {
+    const labelsTransformer =
+      this.state.project.problem === 'regression'
+        ? {
+            fields: {},
+          }
+        : this.state.labelsTransformer;
     const payload = {
       id: this.state.algorithmId,
       projectId: this.state.projectId,
@@ -96,7 +102,7 @@ class CreateAlgorithmPage extends React.Component {
         host: this.state.backendConfiguration.host,
         port: this.state.backendConfiguration.port,
         featuresTransformer: this.state.featuresTransformer,
-        labelsTransformer: this.state.labelsTransformer,
+        labelsTransformer: labelsTransformer,
       },
       security: {
         encryption: 'plain',
@@ -108,7 +114,6 @@ class CreateAlgorithmPage extends React.Component {
         ],
       },
     };
-
     createAlgorithm(payload, this.props.user.accessToken, this.props.invalidateToken).then(res => {
       this.props.history.push(`/projects/${this.state.projectId}`);
     });
@@ -147,7 +152,7 @@ class CreateAlgorithmPage extends React.Component {
     );
 
     const labelsTransformerComponent = this.state.project &&
-      this.state.problemType === 'classification' && (
+      this.state.project.problem === 'classification' && (
         <LabelsTransformerConfiguration
           project={this.state.project}
           labelsTransformerChange={this.labelsTransformerChange}
