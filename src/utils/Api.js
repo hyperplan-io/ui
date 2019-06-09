@@ -155,7 +155,6 @@ export function createProject(payload, accessToken, invalidateToken) {
     headers: headers,
     body: JSON.stringify(payload),
   }).then(res => {
-    console.log(res);
     if (res.status === 401) {
       invalidateToken();
     } else if (res.status === 201) {

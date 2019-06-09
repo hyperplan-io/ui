@@ -117,13 +117,10 @@ class CreateAlgorithmPage extends React.Component {
   render() {
     let options;
     if (this.state.project && this.state.project.problem === 'classification') {
-      console.log(this.state.project.problemType);
       options = classificationBackends;
     } else if (this.state.project && this.state.project.problem === 'regression') {
-      console.log(this.state.project.problemType);
       options = regressionBackends;
     } else {
-      console.log(this.state);
       options = [];
     }
 

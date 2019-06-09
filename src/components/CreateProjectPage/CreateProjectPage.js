@@ -79,7 +79,6 @@ class CreateProjectPage extends React.Component {
       featuresId: this.state.featuresId,
     };
     if (this.state.problemType === 'classification') {
-      console.log('settings labelsId');
       payload.labelsId = this.state.labelsId;
     }
     createProject(payload, this.props.user.accessToken, this.props.invalidateToken).then(
