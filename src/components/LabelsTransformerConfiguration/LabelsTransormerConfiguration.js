@@ -13,7 +13,7 @@ class LabelsTransformerConfiguration extends React.Component {
       this.props.labelsTransformerChange({ fields: {} });
     } else if (labelsConfiguration.type === 'oneOf') {
       this.props.labelsTransformerChange({
-        fields: labelsConfiguration.oneOf.map(label => ({ [label]: label })),
+        fields: Object.assign(...labelsConfiguration.oneOf.map(label => ({ [label]: label }))),
       });
     }
   }
