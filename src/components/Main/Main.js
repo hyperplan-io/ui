@@ -9,6 +9,7 @@ import LabelPage from '../LabelPage/LabelPage';
 import CreateFeaturesPage from '../CreateFeaturesPage/CreateFeaturesPage';
 import CreateLabelsPage from '../CreateLabelsPage/CreateLabelsPage';
 import CreateAlgorithmPage from '../CreateAlgorithmPage/CreateAlgorithmPage';
+import CreateProjectPage from '../CreateProjectPage/CreateProjectPage';
 
 
 function Main(myProps) {
@@ -100,6 +101,15 @@ function Main(myProps) {
           path='/createAlgorithm' 
           render={(props) => 
             <CreateAlgorithmPage{...props} 
+              invalidateToken={myProps.invalidateToken}
+              user={myProps.user} 
+            />
+          } 
+        />
+        <Route 
+          path='/createProject' 
+          render={(props) => 
+            <CreateProjectPage {...props} 
               invalidateToken={myProps.invalidateToken}
               user={myProps.user} 
             />

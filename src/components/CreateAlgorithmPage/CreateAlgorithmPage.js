@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { Button, HTMLSelect, RadioGroup, Radio, InputGroup, Card } from "@blueprintjs/core";
+import { Button, HTMLSelect, InputGroup, Card } from "@blueprintjs/core";
 
 import TensorFlowBackendConfiguration from '../TensorFlowBackendConfiguration/TensorFlowBackendConfiguration';
 import FeaturesTransformerConfiguration from '../FeaturesTransformerConfiguration/FeaturesTransformerConfiguration';
 import LabelsTransformerConfiguration from '../LabelsTransformerConfiguration/LabelsTransormerConfiguration';
 
-import { createAlgorithm } from '../../utils/Api';
+import { getProjectById, createAlgorithm } from '../../utils/Api';
 
 const classificationBackends = [
   'TensorFlowClassificationBackend',
@@ -30,13 +30,21 @@ class CreateAlgorithmPage extends React.Component {
 
     this.state = {
       projectId: params.get('projectId'),
-      problemType: 'Classification',
       backend: 'TensorFlowClassificationBackend',
       backendConfiguration: {
         
       }
     }
   }
+
+  componentDidMount() {
+    getProjectById(this.state.projectId, this.props.user.accessToken, this.props.invalidateToken).then(project => {
+      this.setState({
+        project: project
+      })
+    })
+  }
+
 
   featuresTransformerChange(featuresTransformer) {
     this.setState(prevState => ({
@@ -112,31 +120,17 @@ class CreateAlgorithmPage extends React.Component {
     })
   }
 
-  componentDidMount() {
-    const headers = {
-      'Authorization': `Bearer ${this.props.user.accessToken}`
-    };
-    fetch(
-      `/projects/${this.state.projectId}`,
-      {
-        method: "GET",
-        headers: headers
-      }
-    ).then(res => {
-      res.json().then(body => {
-        this.setState( {
-			    project: body
-		    });
-      });
-    });
-  }
-  
   render() {
     let options;
-    if(this.state.problemType === 'Classification') {
+    if(this.state.project && this.state.project.problem === 'classification') {
+      console.log(this.state.project.problemType)
       options = classificationBackends;
-    } else if(this.state.problemType === 'Regression') {
+    } else if(this.state.project && this.state.project.problem === 'regression') {
+      console.log(this.state.project.problemType)
       options = regressionBackends;
+    } else {
+      console.log(this.state)
+      options = [] 
     }
 
     let backendConfiguration;
@@ -150,6 +144,11 @@ class CreateAlgorithmPage extends React.Component {
       )
     }
         
+    const featuresTransformerComponent = (this.state.project && 
+          <FeaturesTransformerConfiguration project={this.state.project} featuresTransformerChange={this.featuresTransformerChange}/>)
+
+    const labelsTransformerComponent = this.state.project && this.state.problemType === 'classification' && <LabelsTransformerConfiguration project={this.state.project} labelsTransformerChange={this.labelsTransformerChange}/>
+
     return (
       <div>
         <div className="leftPanel">
@@ -157,14 +156,6 @@ class CreateAlgorithmPage extends React.Component {
       <br/>
       <br/>
       <Card>
-      <RadioGroup
-			  label="Problem"
-        inline='true'
-				onChange={this.handleProblemTypeChange}
-				selectedValue={this.state.problemType}>
-          <Radio label="Classification" value="Classification" />
-					<Radio label="Regression" value="Regression" />
-			</RadioGroup>
       <HTMLSelect
           options={options}
           onChange={this.handleBackendChange}
@@ -179,12 +170,10 @@ class CreateAlgorithmPage extends React.Component {
       <div className="rightPanel">
         { backendConfiguration }         
         <br/>
-          { 
-            this.state.project && 
-          <div><FeaturesTransformerConfiguration project={this.state.project} featuresTransformerChange={this.featuresTransformerChange}/>
+          { featuresTransformerComponent }
           <br/>
-        <LabelsTransformerConfiguration project={this.state.project} labelsTransformerChange={this.labelsTransformerChange}/></div>
-          }
+          { labelsTransformerComponent }
+        
       </div>
       </div>
     )

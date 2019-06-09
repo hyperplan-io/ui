@@ -171,6 +171,29 @@ export function createLabels(payload, accessToken, invalidateToken) {
     }
   })
 }
+
+export function createProject(payload, accessToken, invalidateToken) {
+  const headers = {
+    'Authorization': `Bearer ${accessToken}`
+  };
+  console.log(payload)
+  return fetch(
+    `/projects`,
+    {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(payload)
+    }
+  ).then (res => {
+    console.log(res)
+    if(res.status === 401) {
+      invalidateToken();
+    } else if(res.status === 201) {
+      return res.json()
+    }
+  })
+}
+
 export function patchProject(projectId, payload, accessToken, invalidateToken) {
   const headers = {
     'Authorization': `Bearer ${accessToken}`

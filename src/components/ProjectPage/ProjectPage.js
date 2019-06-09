@@ -65,7 +65,7 @@ class ProjectPage extends React.Component {
               <br/>
                 <Features features={this.state.project.configuration.features} />
                 <br/>
-                <Labels labels={this.state.project.configuration.labels} />
+                { this.state.project.problemType === 'classification' && <Labels labels={this.state.project.configuration.labels} />}
               </div>
             </div>
           </div>
