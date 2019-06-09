@@ -1,21 +1,19 @@
 import React from 'react';
 import { Card, HTMLSelect, H5 } from '@blueprintjs/core';
-const labelsTransformationFunctions = [
-  'identity'
-];
+const labelsTransformationFunctions = ['identity'];
 
 class LabelsTransformerConfiguration extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      labelsTransformationFunction: 'identity'
-    }
+      labelsTransformationFunction: 'identity',
+    };
     const labelsConfiguration = this.props.project.configuration.labels.data;
-    if(labelsConfiguration.type === 'dynamic') {
-      this.props.labelsTransformerChange({ fields: {}});
-    } else if(labelsConfiguration.type === 'oneOf') {
+    if (labelsConfiguration.type === 'dynamic') {
+      this.props.labelsTransformerChange({ fields: {} });
+    } else if (labelsConfiguration.type === 'oneOf') {
       this.props.labelsTransformerChange({
-        fields: labelsConfiguration.oneOf.map(label => ({ [label]: label}))
+        fields: labelsConfiguration.oneOf.map(label => ({ [label]: label })),
       });
     }
   }
@@ -24,17 +22,16 @@ class LabelsTransformerConfiguration extends React.Component {
     return (
       <div>
         <Card>
-        <H5> Labels transformation </H5>
-        <HTMLSelect
-          options={labelsTransformationFunctions}
-          onChange={this.handleFunctionChange}
-          value={this.state.labelsTransformationFunction} >
-        </HTMLSelect>
-      </Card>
+          <H5> Labels transformation </H5>
+          <HTMLSelect
+            options={labelsTransformationFunctions}
+            onChange={this.handleFunctionChange}
+            value={this.state.labelsTransformationFunction}
+          ></HTMLSelect>
+        </Card>
       </div>
-    )
+    );
   }
-
 }
 
 export default LabelsTransformerConfiguration;

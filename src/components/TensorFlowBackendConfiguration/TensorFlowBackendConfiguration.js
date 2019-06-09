@@ -1,8 +1,7 @@
 import React from 'react';
 
-import {Card, InputGroup, H5 } from "@blueprintjs/core";
+import { Card, InputGroup, H5 } from '@blueprintjs/core';
 class TensorFlowBackendConfiguration extends React.Component {
-
   constructor(props) {
     super(props);
     this.handleHostChange = this.handleHostChange.bind(this);
@@ -12,7 +11,7 @@ class TensorFlowBackendConfiguration extends React.Component {
 
   handleHostChange(event) {
     const host = event.target.value;
-    this.props.backendConfigurationChange({key: 'host', value: host});
+    this.props.backendConfigurationChange({ key: 'host', value: host });
     this.setState(prevState => ({
       host: host,
     }));
@@ -20,7 +19,7 @@ class TensorFlowBackendConfiguration extends React.Component {
 
   handlePortChange(event) {
     const port = event.target.value;
-    this.props.backendConfigurationChange({key: 'port', value: port});
+    this.props.backendConfigurationChange({ key: 'port', value: port });
     this.setState(prevState => ({
       port: port,
     }));
@@ -28,7 +27,10 @@ class TensorFlowBackendConfiguration extends React.Component {
 
   handleSignatureChange(event) {
     const signatureName = event.target.value;
-    this.props.backendConfigurationChange({key: 'signatureName', value: signatureName});
+    this.props.backendConfigurationChange({
+      key: 'signatureName',
+      value: signatureName,
+    });
     this.setState(prevState => ({
       signatureName: signatureName,
     }));
@@ -38,17 +40,19 @@ class TensorFlowBackendConfiguration extends React.Component {
     return (
       <div>
         <Card>
-          <H5>TensorFlow Configuration </H5> 
-          <InputGroup onChange={this.handleHostChange} placeholder="Host (required)"/>
-          <br/>
-          <InputGroup onChange={this.handlePortChange} placeholder="Port (required)"/>
-          <br/>
-          <InputGroup onChange={this.handleSignatureChange} placeholder="Signature name(required)"/>
+          <H5>TensorFlow Configuration </H5>
+          <InputGroup onChange={this.handleHostChange} placeholder="Host (required)" />
+          <br />
+          <InputGroup onChange={this.handlePortChange} placeholder="Port (required)" />
+          <br />
+          <InputGroup
+            onChange={this.handleSignatureChange}
+            placeholder="Signature name(required)"
+          />
         </Card>
       </div>
-    )
+    );
   }
-
 }
 
 export default TensorFlowBackendConfiguration;
