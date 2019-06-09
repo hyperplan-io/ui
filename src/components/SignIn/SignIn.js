@@ -34,7 +34,6 @@ class SignIn extends React.Component {
   }
 
   handleSubmit() {
-    console.log('hello submit');
     signIn(this.state.form.username, this.state.form.password).then(body => {
       const accessToken = body.token;
       localStorage.setItem('isAuthenticated', true);
