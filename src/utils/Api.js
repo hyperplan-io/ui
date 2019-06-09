@@ -183,7 +183,6 @@ export function patchProject(projectId, payload, accessToken, invalidateToken) {
       body: JSON.stringify(payload)
     }
   ).then (res => {
-    console.log(res)
     if(res.status === 401) {
       invalidateToken();
     } else if(res.status === 200) {
