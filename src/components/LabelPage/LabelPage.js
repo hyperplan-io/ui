@@ -6,38 +6,25 @@ import { getLabelsById } from '../../utils/Api';
 
 class LabelPage extends React.Component {
   constructor(props) {
-    super(props)
-    this.state = {
-
-    }
+    super(props);
+    this.state = {};
   }
 
   componentDidMount() {
     const labelsId = this.props.match.params.labelsId;
-    getLabelsById(
-      labelsId,
-      this.props.user.accessToken,
-      this.props.invalidateToken
-    ).then(label => {
-      this.setState( {
-        labels: label 
-      })
-    })
+    getLabelsById(labelsId, this.props.user.accessToken, this.props.invalidateToken).then(label => {
+      this.setState({
+        labels: label,
+      });
+    });
   }
 
   render() {
-    if(this.state.labels) {
-      return (
-        <Labels labels={this.state.labels} />
-      )
+    if (this.state.labels) {
+      return <Labels labels={this.state.labels} />;
     } else {
-      return (
-        <div>
-
-        </div>
-      )
+      return <div></div>;
     }
-    
   }
 }
 

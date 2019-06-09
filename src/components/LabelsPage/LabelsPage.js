@@ -1,6 +1,6 @@
 import React from 'react';
 import './LabelsPage.css';
-import { Button, Card, H5 } from "@blueprintjs/core";
+import { Button, Card, H5 } from '@blueprintjs/core';
 
 import { getLabels } from '../../utils/Api';
 
@@ -9,32 +9,26 @@ function Label(props) {
     <Card>
       <div>
         <H5>
-          <a href={`/labels/${props.labels.id}`}> { props.labels.id}</a>
+          <a href={`/labels/${props.labels.id}`}> {props.labels.id}</a>
         </H5>
       </div>
     </Card>
-  )
+  );
 }
 
 class LabelsPage extends React.Component {
-
   constructor(props) {
     super(props);
-    this.state = {
-      
-    }
+    this.state = {};
     this.handleCreateLabels = this.handleCreateLabels.bind(this);
   }
 
   componentDidMount() {
-    getLabels(
-      this.props.user.accessToken,
-      this.invalidateToken
-    ).then(labels => {
-      this.setState( {
-        labels: labels 
-      })
-    })
+    getLabels(this.props.user.accessToken, this.invalidateToken).then(labels => {
+      this.setState({
+        labels: labels,
+      });
+    });
   }
 
   handleCreateLabels() {
@@ -43,28 +37,32 @@ class LabelsPage extends React.Component {
 
   render() {
     let mainContent;
-    if(this.state.labels) {
-      const labelsComponents = this.state.labels.map(label=> 
-        <Label labels={label}/>
-      )
+    if (this.state.labels) {
+      const labelsComponents = this.state.labels.map(label => <Label labels={label} />);
       mainContent = (
         <div>
           <h1> Labels </h1>
-          { labelsComponents }
+          {labelsComponents}
         </div>
-      )
+      );
     } else {
-      mainContent = <div> </div>
+      mainContent = <div> </div>;
     }
 
     return (
       <div>
-        <Button onClick={this.handleCreateLabels} className="rightButton" rightIcon="arrow-right" intent="success">Create</Button>
-        { mainContent }
+        <Button
+          onClick={this.handleCreateLabels}
+          className="rightButton"
+          rightIcon="arrow-right"
+          intent="success"
+        >
+          Create
+        </Button>
+        {mainContent}
       </div>
-    )
+    );
   }
-	
 }
 
 export default LabelsPage;
