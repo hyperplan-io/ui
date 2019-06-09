@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FormGroup, InputGroup, Button, H1 } from '@blueprintjs/core';
+import { Card, FormGroup, InputGroup, Button, H1 } from '@blueprintjs/core';
 import './SignIn.css';
 
 import Navbar from '../Navbar/Navbar';
@@ -32,6 +32,7 @@ class SignIn extends React.Component {
   }
 
   handleSubmit() {
+    console.log('hello submit');
     fetch('/authentication', {
       method: 'POST',
       body: JSON.stringify({
@@ -88,28 +89,32 @@ class SignIn extends React.Component {
     } else {
       return (
         <div className="formPadding">
-          <H1 className="formTitle"> FoundaMl </H1>
-          <FormGroup inline="true" labelFor="text-input">
-            <InputGroup
-              onChange={this.onUsernameChange}
-              className="authenticationField"
-              type="text"
-              id="text-input"
-              placeholder="Username"
-            />
-            <InputGroup
-              onChange={this.onPasswordChange}
-              className="authenticationField"
-              type="password"
-              id="text-input"
-              placeholder="Password"
-            />
-            <Button
-              type="submit"
-              className="signInButton"
-              text="Sign in"
-              onClick={this.handleSubmit}
-            />
+          <FormGroup className="MyForm" inline="true" labelFor="text-input">
+            <Card>
+              <H1 className="formTitle"> hyperplan.io </H1>
+              <form onSubmit={this.handleSubmit}>
+                <InputGroup
+                  onChange={this.onUsernameChange}
+                  className="authenticationField"
+                  type="text"
+                  id="text-input"
+                  placeholder="Username"
+                />
+                <InputGroup
+                  onChange={this.onPasswordChange}
+                  className="authenticationField"
+                  type="password"
+                  id="text-input"
+                  placeholder="Password"
+                />
+                <Button
+                  type="submit"
+                  className="signInButton"
+                  text="Sign in"
+                  onClick={this.handleSubmit}
+                />
+              </form>
+            </Card>
           </FormGroup>
         </div>
       );
