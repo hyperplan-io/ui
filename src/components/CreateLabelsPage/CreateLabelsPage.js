@@ -140,7 +140,7 @@ class CreateLabelsPage extends React.Component {
           <ul>
             <li><Text> Labels can be either static or dynamic </Text></li>
             <li><Text> If you know exactly what your labels are, prefer the static </Text></li>
-            <li><Text> If your labels vary a lot or if there a too many of them, prefer dynamic </Text></li>
+            <li><Text> If your labels vary a lot or if there are too many of them, prefer dynamic </Text></li>
           </ul>
         </Callout>
 				<br/>
