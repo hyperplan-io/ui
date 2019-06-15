@@ -23,6 +23,7 @@ class StaticLabel extends React.Component {
       labels: [],
     };
     this.handleOnChangeLabels = this.handleOnChangeLabels.bind(this);
+    document.title = 'Create labels - Hyperplan';
   }
 
   handleOnChangeLabels(values) {

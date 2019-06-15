@@ -20,6 +20,7 @@ class Projects extends React.Component {
   }
 
   componentDidMount() {
+    document.title = 'Projects - Hyperplan';
     getProjects(this.props.user.accessToken, this.props.invalidateToken).then(projects => {
       this.setState({
         projects: projects,

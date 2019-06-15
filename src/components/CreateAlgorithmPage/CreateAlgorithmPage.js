@@ -28,6 +28,7 @@ class CreateAlgorithmPage extends React.Component {
       projectId: params.get('projectId'),
       backendConfiguration: {},
     };
+    document.title = 'Create algorithm - Hyperplan';
   }
 
   componentDidMount() {

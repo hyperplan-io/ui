@@ -24,6 +24,7 @@ class LabelsPage extends React.Component {
   }
 
   componentDidMount() {
+    document.title = 'Labels - Hyperplan';
     getLabels(this.props.user.accessToken, this.invalidateToken).then(labels => {
       this.setState({
         labels: labels,

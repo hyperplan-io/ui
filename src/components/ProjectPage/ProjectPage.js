@@ -22,6 +22,7 @@ class ProjectPage extends React.Component {
   }
 
   componentDidMount() {
+    document.title = 'Projects - Hyperplan';
     const projectId = this.props.match.params.projectId;
     getProjectById(projectId, this.props.user.accessToken, this.props.invalidateToken).then(
       project => {
