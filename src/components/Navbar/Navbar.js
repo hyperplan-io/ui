@@ -37,7 +37,7 @@ class MyNavbar extends React.Component {
     return (
       <div>
         {this.props.user.isAuthenticated && (
-          <Navbar className="bp3-dark" style={{ position: 'fixed', top: 0 }}>
+          <Navbar style={{ position: 'fixed', top: 0 }}>
             <NavbarGroup align={Alignment.RIGHT}>
               <NavbarHeading>hyperplan.io</NavbarHeading>
               <NavbarDivider />
