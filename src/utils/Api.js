@@ -1,5 +1,4 @@
-//const prefix = '/api';
-const prefix = '';
+const prefix = process.env.API_PREFIX || '';
 
 export function signIn(username, password) {
   return fetch(`${prefix}/authentication`, {

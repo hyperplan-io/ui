@@ -109,6 +109,7 @@ class SignIn extends React.Component {
                   type="submit"
                   className="signInButton"
                   text="Sign in"
+                  intent="success"
                   onClick={this.handleSubmit}
                 />
               </form>
