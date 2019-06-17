@@ -1,5 +1,23 @@
-//const prefix = '/api';
-const prefix = '';
+const prefix = process.env.REACT_APP_API_PREFIX || '';
+const serverPort = process.env.REACT_APP_SERVER_PORT || 80;
+
+export function host() {
+  if (prefix === '') {
+    return `http://${window.location.hostname}`.replace(/\/$/, '');
+  } else if (prefix.startsWith('http')) {
+    return prefix.replace(/\/$/, '');
+  } else {
+    return `http://${window.location.hostname}/${prefix}`.replace(/\/$/, '');
+  }
+}
+
+export function port() {
+  if (prefix.startsWith('http')) {
+    return 80;
+  } else {
+    return serverPort;
+  }
+}
 
 export function signIn(username, password) {
   return fetch(`${prefix}/authentication`, {

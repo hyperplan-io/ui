@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import '@blueprintjs/core/lib/css/blueprint.css';
+require('dotenv').config();
 
 const root = <App />;
 ReactDOM.render(root, document.getElementById('root'));
