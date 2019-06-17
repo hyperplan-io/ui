@@ -12,7 +12,6 @@ export function host() {
 }
 
 export function port() {
-  console.log(process.env.SERVER_PORT);
   if (prefix.startsWith('http')) {
     return 80;
   } else {
