@@ -31,6 +31,7 @@ class CreateSingleFeature extends React.Component {
       currentDimension: 'One',
       referenceValue: '',
     };
+    document.title = 'Create Features - Hyperplan';
   }
 
   handleFeatureNameChange(event) {

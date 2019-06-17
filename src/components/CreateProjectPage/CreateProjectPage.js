@@ -16,6 +16,7 @@ class CreateProjectPage extends React.Component {
     this.handleCreateProject = this.handleCreateProject.bind(this);
     this.handleFeaturesChange = this.handleFeaturesChange.bind(this);
     this.handleLabelsChange = this.handleLabelsChange.bind(this);
+    document.title = 'Create project - Hyperplan';
   }
 
   componentDidMount() {

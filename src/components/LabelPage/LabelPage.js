@@ -11,6 +11,7 @@ class LabelPage extends React.Component {
   }
 
   componentDidMount() {
+    document.title = 'Labels - Hyperplan';
     const labelsId = this.props.match.params.labelsId;
     getLabelsById(labelsId, this.props.user.accessToken, this.props.invalidateToken).then(label => {
       this.setState({

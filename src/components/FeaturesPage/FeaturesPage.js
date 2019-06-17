@@ -28,6 +28,7 @@ class FeaturesPage extends React.Component {
   }
 
   componentDidMount() {
+    document.title = 'Features - Hyperplan';
     getFeatures(this.props.user.accessToken, this.props.invalidateToken).then(features => {
       this.setState({
         features: features,

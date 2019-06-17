@@ -10,6 +10,7 @@ class FeaturePage extends React.Component {
   }
 
   componentDidMount() {
+    document.title = 'Features - Hyperplan';
     const featuresId = this.props.match.params.featuresId;
     getFeaturesById(featuresId, this.props.user.accessToken, this.props.invalidateToken).then(
       features => {

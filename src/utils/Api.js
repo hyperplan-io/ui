@@ -1,4 +1,5 @@
-const prefix = '/api';
+//const prefix = '/api';
+const prefix = '';
 
 export function signIn(username, password) {
   return fetch(`${prefix}/authentication`, {
