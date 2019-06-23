@@ -1,26 +1,7 @@
-const prefix = process.env.REACT_APP_API_PREFIX || '';
-const serverPort = process.env.REACT_APP_SERVER_PORT || 80;
-
-export function host() {
-  if (prefix === '') {
-    return `http://${window.location.hostname}`.replace(/\/$/, '');
-  } else if (prefix.startsWith('http')) {
-    return prefix.replace(/\/$/, '');
-  } else {
-    return `http://${window.location.hostname}/${prefix}`.replace(/\/$/, '');
-  }
-}
-
-export function port() {
-  if (prefix.startsWith('http')) {
-    return 80;
-  } else {
-    return serverPort;
-  }
-}
+const host = process.env.REACT_APP_SERVER_HOST;
 
 export function signIn(username, password) {
-  return fetch(`${prefix}/authentication`, {
+  return fetch(`${host}/authentication`, {
     method: 'POST',
     body: JSON.stringify({
       username: username,
@@ -29,6 +10,10 @@ export function signIn(username, password) {
   }).then(res => {
     if (res.status === 200) {
       return res.json();
+    } else {
+      console.log(
+        `An error occurred with a network call: http ${res.status} with body ${res.body}`,
+      );
     }
   });
 }
@@ -37,7 +22,7 @@ export function getProjects(accessToken, invalidateToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
   };
-  return fetch(`${prefix}/projects`, {
+  return fetch(`${host}/projects`, {
     headers: headers,
     method: 'GET',
   }).then(res => {
@@ -45,6 +30,10 @@ export function getProjects(accessToken, invalidateToken) {
       invalidateToken();
     } else if (res.status === 200) {
       return res.json();
+    } else {
+      console.log(
+        `An error occurred with a network call: http ${res.status} with body ${res.body}`,
+      );
     }
   });
 }
@@ -53,7 +42,7 @@ export function getProjectById(id, accessToken, invalidateToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
   };
-  return fetch(`${prefix}/projects/${id}`, {
+  return fetch(`${host}/projects/${id}`, {
     headers: headers,
     method: 'GET',
   }).then(res => {
@@ -61,6 +50,10 @@ export function getProjectById(id, accessToken, invalidateToken) {
       invalidateToken();
     } else if (res.status === 200) {
       return res.json();
+    } else {
+      console.log(
+        `An error occurred with a network call: http ${res.status} with body ${res.body}`,
+      );
     }
   });
 }
@@ -69,7 +62,7 @@ export function getFeatures(accessToken, invalidateToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
   };
-  return fetch(`${prefix}/features`, {
+  return fetch(`${host}/features`, {
     headers: headers,
     method: 'GET',
   }).then(res => {
@@ -77,6 +70,10 @@ export function getFeatures(accessToken, invalidateToken) {
       invalidateToken();
     } else if (res.status === 200) {
       return res.json();
+    } else {
+      console.log(
+        `An error occurred with a network call: http ${res.status} with body ${res.body}`,
+      );
     }
   });
 }
@@ -85,7 +82,7 @@ export function getFeaturesById(id, accessToken, invalidateToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
   };
-  return fetch(`${prefix}/features/${id}`, {
+  return fetch(`${host}/features/${id}`, {
     headers: headers,
     method: 'GET',
   }).then(res => {
@@ -93,6 +90,10 @@ export function getFeaturesById(id, accessToken, invalidateToken) {
       invalidateToken();
     } else if (res.status === 200) {
       return res.json();
+    } else {
+      console.log(
+        `An error occurred with a network call: http ${res.status} with body ${res.body}`,
+      );
     }
   });
 }
@@ -101,7 +102,7 @@ export function getLabels(accessToken, invalidateToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
   };
-  return fetch(`${prefix}/labels`, {
+  return fetch(`${host}/labels`, {
     headers: headers,
     method: 'GET',
   }).then(res => {
@@ -109,6 +110,10 @@ export function getLabels(accessToken, invalidateToken) {
       invalidateToken();
     } else if (res.status === 200) {
       return res.json();
+    } else {
+      console.log(
+        `An error occurred with a network call: http ${res.status} with body ${res.body}`,
+      );
     }
   });
 }
@@ -117,7 +122,7 @@ export function getLabelsById(id, accessToken, invalidateToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
   };
-  return fetch(`${prefix}/labels/${id}`, {
+  return fetch(`${host}/labels/${id}`, {
     headers: headers,
     method: 'GET',
   }).then(res => {
@@ -125,6 +130,10 @@ export function getLabelsById(id, accessToken, invalidateToken) {
       invalidateToken();
     } else if (res.status === 200) {
       return res.json();
+    } else {
+      console.log(
+        `An error occurred with a network call: http ${res.status} with body ${res.body}`,
+      );
     }
   });
 }
@@ -133,7 +142,7 @@ export function createAlgorithm(payload, accessToken, invalidateToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
   };
-  return fetch(`${prefix}/algorithms`, {
+  return fetch(`${host}/algorithms`, {
     method: 'POST',
     headers: headers,
     body: JSON.stringify(payload),
@@ -142,6 +151,10 @@ export function createAlgorithm(payload, accessToken, invalidateToken) {
       invalidateToken();
     } else if (res.status === 200) {
       return res.json();
+    } else {
+      console.log(
+        `An error occurred with a network call: http ${res.status} with body ${res.body}`,
+      );
     }
   });
 }
@@ -150,7 +163,7 @@ export function createFeatures(payload, accessToken, invalidateToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
   };
-  return fetch(`${prefix}/features`, {
+  return fetch(`${host}/features`, {
     method: 'POST',
     headers: headers,
     body: JSON.stringify(payload),
@@ -159,6 +172,10 @@ export function createFeatures(payload, accessToken, invalidateToken) {
       invalidateToken();
     } else if (res.status === 200) {
       return res.json();
+    } else {
+      console.log(
+        `An error occurred with a network call: http ${res.status} with body ${res.body}`,
+      );
     }
   });
 }
@@ -167,7 +184,7 @@ export function createLabels(payload, accessToken, invalidateToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
   };
-  return fetch(`${prefix}/labels`, {
+  return fetch(`${host}/labels`, {
     method: 'POST',
     headers: headers,
     body: JSON.stringify(payload),
@@ -176,6 +193,10 @@ export function createLabels(payload, accessToken, invalidateToken) {
       invalidateToken();
     } else if (res.status === 200) {
       return res.json();
+    } else {
+      console.log(
+        `An error occurred with a network call: http ${res.status} with body ${res.body}`,
+      );
     }
   });
 }
@@ -185,7 +206,7 @@ export function createProject(payload, accessToken, invalidateToken) {
     Authorization: `Bearer ${accessToken}`,
   };
   console.log(payload);
-  return fetch(`${prefix}/projects`, {
+  return fetch(`${host}/projects`, {
     method: 'POST',
     headers: headers,
     body: JSON.stringify(payload),
@@ -194,6 +215,10 @@ export function createProject(payload, accessToken, invalidateToken) {
       invalidateToken();
     } else if (res.status === 201) {
       return res.json();
+    } else {
+      console.log(
+        `An error occurred with a network call: http ${res.status} with body ${res.body}`,
+      );
     }
   });
 }
@@ -202,7 +227,7 @@ export function patchProject(projectId, payload, accessToken, invalidateToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
   };
-  return fetch(`${prefix}/projects/${projectId}`, {
+  return fetch(`${host}/projects/${projectId}`, {
     method: 'PATCH',
     headers: headers,
     body: JSON.stringify(payload),
@@ -211,6 +236,10 @@ export function patchProject(projectId, payload, accessToken, invalidateToken) {
       invalidateToken();
     } else if (res.status === 200) {
       return res.json();
+    } else {
+      console.log(
+        `An error occurred with a network call: http ${res.status} with body ${res.body}`,
+      );
     }
   });
 }
