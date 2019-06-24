@@ -1,26 +1,7 @@
-const prefix = process.env.REACT_APP_API_PREFIX || '';
-const serverPort = process.env.REACT_APP_SERVER_PORT || 80;
-
-export function host() {
-  if (prefix === '') {
-    return `http://${window.location.hostname}`.replace(/\/$/, '');
-  } else if (prefix.startsWith('http')) {
-    return prefix.replace(/\/$/, '');
-  } else {
-    return `http://${window.location.hostname}/${prefix}`.replace(/\/$/, '');
-  }
-}
-
-export function port() {
-  if (prefix.startsWith('http')) {
-    return 80;
-  } else {
-    return serverPort;
-  }
-}
+export const apiRootUrl = (process.env.REACT_APP_API_ROOT || '').replace(/\/$/, '');
 
 export function signIn(username, password) {
-  return fetch(`${prefix}/authentication`, {
+  return fetch(`${apiRootUrl}/authentication`, {
     method: 'POST',
     body: JSON.stringify({
       username: username,
@@ -37,7 +18,7 @@ export function getProjects(accessToken, invalidateToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
   };
-  return fetch(`${prefix}/projects`, {
+  return fetch(`${apiRootUrl}/projects`, {
     headers: headers,
     method: 'GET',
   }).then(res => {
@@ -53,7 +34,7 @@ export function getProjectById(id, accessToken, invalidateToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
   };
-  return fetch(`${prefix}/projects/${id}`, {
+  return fetch(`${apiRootUrl}/projects/${id}`, {
     headers: headers,
     method: 'GET',
   }).then(res => {
@@ -69,7 +50,7 @@ export function getFeatures(accessToken, invalidateToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
   };
-  return fetch(`${prefix}/features`, {
+  return fetch(`${apiRootUrl}/features`, {
     headers: headers,
     method: 'GET',
   }).then(res => {
@@ -85,7 +66,7 @@ export function getFeaturesById(id, accessToken, invalidateToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
   };
-  return fetch(`${prefix}/features/${id}`, {
+  return fetch(`${apiRootUrl}/features/${id}`, {
     headers: headers,
     method: 'GET',
   }).then(res => {
@@ -101,7 +82,7 @@ export function getLabels(accessToken, invalidateToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
   };
-  return fetch(`${prefix}/labels`, {
+  return fetch(`${apiRootUrl}/labels`, {
     headers: headers,
     method: 'GET',
   }).then(res => {
@@ -117,7 +98,7 @@ export function getLabelsById(id, accessToken, invalidateToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
   };
-  return fetch(`${prefix}/labels/${id}`, {
+  return fetch(`${apiRootUrl}/labels/${id}`, {
     headers: headers,
     method: 'GET',
   }).then(res => {
@@ -133,7 +114,7 @@ export function createAlgorithm(payload, accessToken, invalidateToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
   };
-  return fetch(`${prefix}/algorithms`, {
+  return fetch(`${apiRootUrl}/algorithms`, {
     method: 'POST',
     headers: headers,
     body: JSON.stringify(payload),
@@ -150,7 +131,7 @@ export function createFeatures(payload, accessToken, invalidateToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
   };
-  return fetch(`${prefix}/features`, {
+  return fetch(`${apiRootUrl}/features`, {
     method: 'POST',
     headers: headers,
     body: JSON.stringify(payload),
@@ -167,7 +148,7 @@ export function createLabels(payload, accessToken, invalidateToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
   };
-  return fetch(`${prefix}/labels`, {
+  return fetch(`${apiRootUrl}/labels`, {
     method: 'POST',
     headers: headers,
     body: JSON.stringify(payload),
@@ -184,8 +165,7 @@ export function createProject(payload, accessToken, invalidateToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
   };
-  console.log(payload);
-  return fetch(`${prefix}/projects`, {
+  return fetch(`${apiRootUrl}/projects`, {
     method: 'POST',
     headers: headers,
     body: JSON.stringify(payload),
@@ -202,7 +182,7 @@ export function patchProject(projectId, payload, accessToken, invalidateToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
   };
-  return fetch(`${prefix}/projects/${projectId}`, {
+  return fetch(`${apiRootUrl}/projects/${projectId}`, {
     method: 'PATCH',
     headers: headers,
     body: JSON.stringify(payload),
