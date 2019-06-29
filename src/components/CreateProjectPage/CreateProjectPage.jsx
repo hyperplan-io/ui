@@ -9,13 +9,6 @@ class CreateProjectPage extends React.Component {
     super(props);
     this.state = {
       problemType: 'classification',
-      formErrors: {
-        problemType: '',
-        id: '',
-        name: '',
-        features: '',
-        labels: '',
-      },
     };
     this.handleProblemTypeChange = this.handleProblemTypeChange.bind(this);
     this.handleIdChange = this.handleIdChange.bind(this);
@@ -23,111 +16,62 @@ class CreateProjectPage extends React.Component {
     this.handleCreateProject = this.handleCreateProject.bind(this);
     this.handleFeaturesChange = this.handleFeaturesChange.bind(this);
     this.handleLabelsChange = this.handleLabelsChange.bind(this);
-    this.handleTopicChange = this.handleTopicChange.bind(this);
-    this.isStateValid = this.validateState.bind(this);
-    document.title = 'Create project - Hyperplan';
   }
 
   componentDidMount() {
     getFeatures(this.props.user.accessToken, this.props.invalidateToken).then(features => {
-      this.setState(_ => {
-        let newState = {
-          features: features,
-          featuresId: features.length ? features[0].id : '',
-        };
-        newState.valid = this.validateState(newState);
-        return newState;
+      this.setState({
+        features: features,
+        featuresId: features.length ? features[0].id : '',
       });
     });
 
     getLabels(this.props.user.accessToken, this.props.invalidateToken).then(labels => {
-      this.setState(_ => {
-        let newState = {
-          labels: labels,
-          labelsId: labels.length ? labels[0].id : '',
-        };
-        newState.valid = this.validateState(newState);
-        return newState;
+      this.setState({
+        labels: labels,
+        labelsId: labels.length ? labels[0].id : '',
       });
     });
   }
 
   handleProblemTypeChange(event) {
     const newProblemType = event.target.value;
-    this.setState(_ => {
-      let newState = {
-        problemType: newProblemType,
-      };
-      newState.valid = this.validateState(newState);
-      return newState;
+    this.setState({
+      problemType: newProblemType,
     });
   }
 
   handleIdChange(event) {
     const id = event.target.value;
-    this.setState(_ => {
-      let newState = {
-        id: id,
-        valid: false,
-      };
-      newState.valid = this.validateState(newState);
-      return newState;
+    this.setState({
+      id: id,
     });
   }
 
   handleNameChange(event) {
     const name = event.target.value;
-    this.setState(_ => {
-      let newState = {
-        name: name,
-        valid: false,
-      };
-      newState.valid = this.validateState(newState);
-      return newState;
+    this.setState({
+      name: name,
     });
   }
 
   handleFeaturesChange(event) {
     const featuresId = event.target.value;
     console.log(featuresId);
-    this.setState(_ => {
-      let newState = {
-        featuresId: featuresId,
-        valid: false,
-      };
-      newState.valid = this.validateState(newState);
-      return newState;
+    this.setState({
+      featuresId: featuresId,
     });
   }
 
   handleLabelsChange(event) {
     const labelsId = event.target.value;
     console.log(labelsId);
-    this.setState(_ => {
-      let newState = {
-        labelsId: labelsId,
-        valid: false,
-      };
-      newState.valid = this.validateState(newState);
-      return newState;
-    });
-  }
-
-  handleTopicChange(event) {
-    const topic = event.target.value;
-    this.setState(_ => {
-      let newState = {
-        topic: topic,
-        valid: false,
-      };
-      newState.valid = this.validateState(newState);
-      return newState;
+    this.setState({
+      labelsId: labelsId,
     });
   }
 
   handleCreateProject() {
-    if (this.state.valid) {
-    }
     let payload = {
       id: this.state.id,
       name: this.state.name,
@@ -137,18 +81,11 @@ class CreateProjectPage extends React.Component {
     if (this.state.problemType === 'classification') {
       payload.labelsId = this.state.labelsId;
     }
-    if (this.state.topic) {
-      payload.topic = this.state.topic;
-    }
     createProject(payload, this.props.user.accessToken, this.props.invalidateToken).then(
       project => {
         this.props.history.push(`/Projects/${payload.id}`);
       },
     );
-  }
-
-  validateState(state) {
-    return false;
   }
 
   render() {
@@ -219,14 +156,8 @@ class CreateProjectPage extends React.Component {
           <br />
           {labelsComponent}
         </Card>
-        <br />
         <Card>
           <H5>Additional settings</H5>
-          <InputGroup
-            onChange={this.handleTopicChange}
-            type="text"
-            placeholder="topic (Kafka, Kinesis, PubSub)"
-          />
         </Card>
       </div>
     );

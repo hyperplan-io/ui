@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Card, FormGroup, InputGroup, Button, H1 } from '@blueprintjs/core';
+import { Card, FormGroup, InputGroup, Button, H1, H3 } from '@blueprintjs/core';
 import './SignIn.css';
 
 import Navbar from '../Navbar/Navbar';
@@ -70,7 +70,6 @@ class SignIn extends React.Component {
       },
     }));
   }
-
   render() {
     if (this.state.user.isAuthenticated) {
       return (
@@ -82,9 +81,12 @@ class SignIn extends React.Component {
     } else {
       return (
         <div className="formPadding">
+          <H1 className="signInTitle"> Hyperplan.io </H1>
+          <H3 className="signInSubtitle">
+            Build the machine learning platform that works for your business{' '}
+          </H3>
           <FormGroup className="MyForm" inline="true" labelFor="text-input">
             <Card>
-              <H1 className="formTitle"> hyperplan.io </H1>
               <form
                 onSubmit={e => {
                   e.preventDefault();
