@@ -2,7 +2,7 @@
   "name": "foundaml-ui",
   "version": "0.1.0",
   "engines": {
-    "node": "10.15.3"
+    "node": "10.16.0"
   },
   "private": true,
   "dependencies": {
@@ -22,7 +22,7 @@
     "react-dom": "^16.8.6",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "3.0.1",
+    "react-scripts": "^3.0.1",
     "yarn": "^1.16.0"
   },
   "devDependencies": {
