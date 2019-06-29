@@ -16,6 +16,7 @@ class CreateProjectPage extends React.Component {
     this.handleCreateProject = this.handleCreateProject.bind(this);
     this.handleFeaturesChange = this.handleFeaturesChange.bind(this);
     this.handleLabelsChange = this.handleLabelsChange.bind(this);
+    this.handleTopicChange = this.handleTopicChange.bind(this);
     document.title = 'Create project - Hyperplan';
   }
 
@@ -72,6 +73,13 @@ class CreateProjectPage extends React.Component {
     });
   }
 
+  handleTopicChange(event) {
+    const topic = event.target.value;
+    this.setState({
+      topic: topic,
+    });
+  }
+
   handleCreateProject() {
     let payload = {
       id: this.state.id,
@@ -81,6 +89,9 @@ class CreateProjectPage extends React.Component {
     };
     if (this.state.problemType === 'classification') {
       payload.labelsId = this.state.labelsId;
+    }
+    if (this.state.topic) {
+      payload.topic = this.state.topic;
     }
     createProject(payload, this.props.user.accessToken, this.props.invalidateToken).then(
       project => {
@@ -156,6 +167,15 @@ class CreateProjectPage extends React.Component {
           {featuresComponent}
           <br />
           {labelsComponent}
+        </Card>
+        <br />
+        <Card>
+          <H5>Additional settings</H5>
+          <InputGroup
+            onChange={this.handleTopicChange}
+            type="text"
+            placeholder="topic (Kafka, Kinesis, PubSub)"
+          />
         </Card>
       </div>
     );

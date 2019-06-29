@@ -4,7 +4,7 @@ import './CurlExample.css';
 import { H3 } from '@blueprintjs/core';
 import { Callout } from '@blueprintjs/core';
 
-import { host, port } from '../../utils/Api';
+import { apiRootUrl } from '../../utils/Api';
 
 function generateFeatures(project) {
   const data = project.configuration.features.data.map(feature => {
@@ -51,7 +51,8 @@ function CurlExample(props) {
     projectId: project.id,
     features: features,
   };
-  const code = ` curl -X POST ${host()}:${port()}/predictions -H 'Content-Type: application/json' -H 'cache-control: no-cache' -H 'Authorization: Bearer ${
+  const host = apiRootUrl || 'http://localhost:8080';
+  const code = ` curl -X POST ${host}/predictions -H 'Content-Type: application/json' -H 'cache-control: no-cache' -H 'Authorization: Bearer ${
     props.user.accessToken
   }' -d '${JSON.stringify(data, null, 2)}'
   `;
