@@ -15,8 +15,40 @@ import {
   HTMLSelect,
 } from '@blueprintjs/core';
 import './CreateFeaturesPage.css';
+import { AppToaster } from '../../utils/toaster';
 
 import { getFeatures, createFeatures } from '../../utils/Api';
+
+const isFormValid = formErrors => {
+  let valid = true;
+  Object.values(formErrors).forEach(error => error.length > 0 && (valid = false));
+  return valid;
+};
+const toastErrors = errors => {
+  errors.forEach(error => {
+    if (error.length > 0) {
+      AppToaster.show({ message: error });
+    }
+  });
+};
+
+const computeFeaturesError = newFeatures => {
+  const error = Object.values(newFeatures)
+    .map(feature => {
+      console.log(JSON.stringify(feature));
+      if (feature.name.length > 0 && feature.description.length > 0) {
+        return '';
+      } else if (feature.name.length <= 0 && feature.description.length > 0) {
+        return 'Each feature name needs to be defined';
+      } else if (feature.description.length <= 0 && feature.name.length > 0) {
+        return 'Each feature description needs to be defined';
+      } else {
+        return 'Each feature name and description need to be defined';
+      }
+    })
+    .join(',');
+  return error;
+};
 
 class CreateSingleFeature extends React.Component {
   constructor(props) {
@@ -130,6 +162,7 @@ class CreateSingleFeature extends React.Component {
 }
 const defaultState = {
   description: '',
+  name: '',
   dataType: 'String',
   dimension: 'One',
 };
@@ -147,6 +180,10 @@ class CreateFeaturesPage extends React.Component {
       nextId: randomString(),
       features: {
         '0': defaultState,
+      },
+      formErrors: {
+        name: 'The name cannot be empty',
+        features: 'Each feature needs to have a name and a description',
       },
     };
     this.handleCreateFeatures = this.handleCreateFeatures.bind(this);
@@ -170,9 +207,11 @@ class CreateFeaturesPage extends React.Component {
     this.setState(prevState => {
       let newFeatures = prevState.features;
       newFeatures[prevState.nextId] = defaultState;
+      const error = computeFeaturesError(newFeatures);
       return {
         nextId: randomString(),
         features: newFeatures,
+        formErrors: Object.assign(prevState.formErrors, { features: error }),
       };
     });
   }
@@ -207,9 +246,11 @@ class CreateFeaturesPage extends React.Component {
     this.setState(prevState => {
       const newFeature = { ...prevState.features[id], ...{ name: newName } };
       const newFeatures = { ...prevState.features, ...{ [id]: newFeature } };
+      const error = computeFeaturesError(newFeatures);
       return {
         nextId: prevState.nextId,
         features: newFeatures,
+        formErrors: Object.assign(prevState.formErrors, { features: error }),
       };
     });
   }
@@ -222,9 +263,11 @@ class CreateFeaturesPage extends React.Component {
         ...{ description: newDescription },
       };
       const newFeatures = { ...prevState.features, ...{ [id]: newFeature } };
+      const error = computeFeaturesError(newFeatures);
       return {
         nextId: prevState.nextId,
         features: newFeatures,
+        formErrors: Object.assign(prevState.formErrors, { features: error }),
       };
     });
   }
@@ -245,24 +288,28 @@ class CreateFeaturesPage extends React.Component {
   }
 
   handleCreateFeatures() {
-    const featuresList = Object.keys(this.state.features).map(id => this.state.features[id]);
-    const payload = {
-      id: this.state.id,
-      data: featuresList.map(feature => ({
-        name: feature.name,
-        type: feature.dataType,
-        dimension: feature.dimension,
-        description: feature.description,
-      })),
-    };
-    createFeatures(payload, this.props.user.accessToken, this.props.invalidateToken)
-      .then(res => {
-        this.props.history.push('/features');
-      })
-      .catch(err => {
-        console.log(err);
-        this.showToast('An error occurred while creating the features. Verify');
-      });
+    if (isFormValid(this.state.formErrors)) {
+      const featuresList = Object.keys(this.state.features).map(id => this.state.features[id]);
+      const payload = {
+        id: this.state.id,
+        data: featuresList.map(feature => ({
+          name: feature.name,
+          type: feature.dataType,
+          dimension: feature.dimension,
+          description: feature.description,
+        })),
+      };
+      createFeatures(payload, this.props.user.accessToken, this.props.invalidateToken)
+        .then(res => {
+          this.props.history.push('/features');
+        })
+        .catch(err => {
+          console.log(err);
+          this.showToast('An error occurred while creating the features. Verify');
+        });
+    } else {
+      toastErrors(Object.values(this.state.formErrors));
+    }
   }
 
   handleOnFeaturesNameChange(event) {
@@ -271,6 +318,7 @@ class CreateFeaturesPage extends React.Component {
       id: newValue,
       nextId: prevState.nextId,
       features: prevState.features,
+      formErrors: Object.assign(prevState.formErrors, { name: '' }),
     }));
   }
 
