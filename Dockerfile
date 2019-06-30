@@ -1,14 +1,13 @@
 FROM mhart/alpine-node:10.16.0 AS builder
 WORKDIR /app
 COPY . .
-ARG SERVER="http:\/\/localhost:8090"
-RUN sed -i "s/process\.env\.REACT\_APP\_API\_ROOT/\"${SERVER}\"/g" /app/src/utils/Api.js
-RUN npm rebuild node-sass
+ARG SERVER_ROOT
+ENV SERVER_ROOT=${SERVER_ROOT:-http://localhost:8090}
 RUN yarn
-RUN yarn run build
+RUN REACT_APP_API_ROOT=${SERVER_ROOT} yarn parcel build ./src/index.html
 
-FROM mhart/alpine-node
-RUN yarn global add serve
-COPY --from=builder /app/build .
-CMD ["serve", "-p", "80", "-s", "."]
-
+FROM nginx:1.16.0-alpine
+COPY --from=builder /app/dist/ /usr/share/nginx/html
+COPY config/nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
