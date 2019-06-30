@@ -1,14 +1,19 @@
 FROM mhart/alpine-node:10.16.0 AS builder
 WORKDIR /app
 COPY . .
-ARG SERVER="http:\/\/localhost:8090"
-RUN sed -i "s/process\.env\.REACT\_APP\_API\_ROOT/\"${SERVER}\"/g" /app/src/utils/Api.js
-RUN npm rebuild node-sass
+ARG SERVER_ROOT=http://localhost:4000
+RUN echo "REACT_APP_API_ROOT={SERVER_ROOT}" > .env
 RUN yarn
-RUN yarn run build
+RUN yarn parcel build ./src/index.html
 
-FROM mhart/alpine-node
-RUN yarn global add serve
-COPY --from=builder /app/build .
-CMD ["serve", "-p", "80", "-s", "."]
-
+FROM nginx:1.17.0 
+COPY --from=builder /app/dist/ /usr/share/nginx/html
+RUN echo "server" >> /etc/nginx/conf.d/default.conf
+RUN echo "{ listen 80;" >> /etc/nginx/conf.d/default.conf
+RUN echo " location / {" >> /etc/nginx/conf.d/default.conf
+RUN echo "root /usr/share/nginx/html;" >> /etc/nginx/conf.d/default.conf
+RUN echo "index index.html index.htm;" >> /etc/nginx/conf.d/default.conf
+RUN echo "try_files $uri $uri/ /index.html =404;" >> /etc/nginx/conf.d/default.conf
+RUN echo "}" >> /etc/nginx/conf.d/default.conf
+RUN echo "include /etc/nginx/extra-conf.d/*.conf;" >> /etc/nginx/conf.d/default.conf
+RUN echo "}" >> /etc/nginx/conf.d/default.conf
