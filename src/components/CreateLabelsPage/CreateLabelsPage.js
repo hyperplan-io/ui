@@ -18,7 +18,6 @@ import { createLabels } from '../../utils/Api';
 
 const isFormValid = formErrors => {
   let valid = true;
-  console.log(JSON.stringify(formErrors));
   Object.values(formErrors).forEach(error => error.length > 0 && (valid = false));
   return valid;
 };
@@ -80,7 +79,6 @@ class CreateLabelsPage extends React.Component {
 
     this.setState(prevState => {
       let error = '';
-      console.log(`new type ${newType}`);
       if (newType === 'oneOf' && prevState.oneOfLabels.length <= 0) {
         error = 'You need to have at least one label defined';
       }
@@ -94,7 +92,6 @@ class CreateLabelsPage extends React.Component {
 
   handleOnChangeLabels(values) {
     const labels = values;
-    console.log(`labels: ${JSON.stringify(labels)}`);
     const error = labels.length > 0 ? '' : 'You need to have at least one label defined';
     this.setState(prevState => ({
       oneOfLabels: labels,
@@ -103,7 +100,6 @@ class CreateLabelsPage extends React.Component {
   }
 
   handleCreateLabels() {
-    console.log(this.state);
     if (isFormValid(this.state.formErrors)) {
       const payload = {
         id: this.state.name,
@@ -115,10 +111,10 @@ class CreateLabelsPage extends React.Component {
       };
 
       createLabels(payload, this.props.user.accessToken, this.props.invalidateToken)
-        .then(label => {
+        .then(_ => {
           this.props.history.push('/labels');
         })
-        .catch(err => {
+        .catch(_ => {
           AppToaster.show({
             message: 'An error occurred while creating the labels. Verify the logs on the server',
           });
