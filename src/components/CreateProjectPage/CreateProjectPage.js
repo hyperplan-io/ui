@@ -3,6 +3,21 @@ import React from 'react';
 import { Button, InputGroup, HTMLSelect, H2, H5, RadioGroup, Radio, Card } from '@blueprintjs/core';
 
 import { createProject, getFeatures, getLabels } from '../../utils/Api';
+import { AppToaster } from '../../utils/toaster';
+
+const isFormValid = formErrors => {
+  let valid = true;
+  Object.values(formErrors).forEach(error => error.length > 0 && (valid = false));
+  return valid;
+};
+
+const toastErrors = errors => {
+  errors.forEach(error => {
+    if (error.length > 0) {
+      AppToaster.show({ message: error });
+    }
+  });
+};
 
 class CreateProjectPage extends React.Component {
   constructor(props) {
@@ -11,8 +26,8 @@ class CreateProjectPage extends React.Component {
       problemType: 'classification',
       formErrors: {
         problemType: '',
-        id: '',
-        name: '',
+        id: 'Project id is required',
+        name: 'Project name is required',
         features: '',
         labels: '',
       },
@@ -65,10 +80,12 @@ class CreateProjectPage extends React.Component {
 
   handleIdChange(event) {
     const id = event.target.value;
-    this.setState(_ => {
+    const error = id.length > 0 ? '' : 'Project id is required';
+    this.setState(prevState => {
       let newState = {
         id: id,
         valid: false,
+        formErrors: Object.assign(prevState.formErrors, { id: error }),
       };
       newState.valid = this.validateState(newState);
       return newState;
@@ -77,10 +94,12 @@ class CreateProjectPage extends React.Component {
 
   handleNameChange(event) {
     const name = event.target.value;
-    this.setState(_ => {
+    const error = name.length > 0 ? '' : 'Project name is required';
+    this.setState(prevState => {
       let newState = {
         name: name,
         valid: false,
+        formErrors: Object.assign(prevState.formErrors, { name: error }),
       };
       newState.valid = this.validateState(newState);
       return newState;
@@ -126,25 +145,27 @@ class CreateProjectPage extends React.Component {
   }
 
   handleCreateProject() {
-    if (this.state.valid) {
+    if (isFormValid(this.state.formErrors)) {
+      let payload = {
+        id: this.state.id,
+        name: this.state.name,
+        problem: this.state.problemType,
+        featuresId: this.state.featuresId,
+      };
+      if (this.state.problemType === 'classification') {
+        payload.labelsId = this.state.labelsId;
+      }
+      if (this.state.topic) {
+        payload.topic = this.state.topic;
+      }
+      createProject(payload, this.props.user.accessToken, this.props.invalidateToken).then(
+        project => {
+          this.props.history.push(`/Projects/${payload.id}`);
+        },
+      );
+    } else {
+      toastErrors(Object.values(this.state.formErrors));
     }
-    let payload = {
-      id: this.state.id,
-      name: this.state.name,
-      problem: this.state.problemType,
-      featuresId: this.state.featuresId,
-    };
-    if (this.state.problemType === 'classification') {
-      payload.labelsId = this.state.labelsId;
-    }
-    if (this.state.topic) {
-      payload.topic = this.state.topic;
-    }
-    createProject(payload, this.props.user.accessToken, this.props.invalidateToken).then(
-      project => {
-        this.props.history.push(`/Projects/${payload.id}`);
-      },
-    );
   }
 
   validateState(state) {
