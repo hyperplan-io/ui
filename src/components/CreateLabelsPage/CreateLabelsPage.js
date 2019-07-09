@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Intent,
   TagInput,
   Toaster,
   Callout,
@@ -13,8 +12,22 @@ import {
   H4,
 } from '@blueprintjs/core';
 import './CreateLabelsPage.css';
+import { AppToaster } from '../../utils/toaster';
 
 import { createLabels } from '../../utils/Api';
+
+const isFormValid = formErrors => {
+  let valid = true;
+  Object.values(formErrors).forEach(error => error.length > 0 && (valid = false));
+  return valid;
+};
+const toastErrors = errors => {
+  errors.forEach(error => {
+    if (error.length > 0) {
+      AppToaster.show({ message: error });
+    }
+  });
+};
 
 class StaticLabel extends React.Component {
   constructor(props) {
@@ -47,6 +60,11 @@ class CreateLabelsPage extends React.Component {
     this.state = {
       labelType: 'oneOf',
       oneOfLabels: [],
+      formErrors: {
+        id: 'The name cannot be empty',
+        description: 'The description cannot be empty',
+        labels: 'You need to have at least one label defined',
+      },
     };
 
     this.handleCreateLabels = this.handleCreateLabels.bind(this);
@@ -58,76 +76,68 @@ class CreateLabelsPage extends React.Component {
 
   handleLabelTypeChange(event) {
     const newType = event.target.value;
+
     this.setState(prevState => {
+      let error = '';
+      if (newType === 'oneOf' && prevState.oneOfLabels.length <= 0) {
+        error = 'You need to have at least one label defined';
+      }
       return {
         labelType: newType,
         name: prevState.name,
-        description: prevState.description,
-        oneOfLabels: prevState.labels,
+        formErrors: Object.assign(prevState.formErrors, { labels: error }),
       };
     });
   }
 
   handleOnChangeLabels(values) {
+    const labels = values;
+    const error = labels.length > 0 ? '' : 'You need to have at least one label defined';
     this.setState(prevState => ({
-      labelType: prevState.labelType,
-      name: prevState.name,
-      description: prevState.description,
-      oneOfLabels: values,
+      oneOfLabels: labels,
+      formErrors: Object.assign(prevState.formErrors, { labels: error }),
     }));
   }
 
-  showToast(message) {
-    const toast = {
-      action: {
-        onClick: () => this.addToast(this.TOAST_BUILDERS[2]),
-        text: 'Retry',
-      },
-      button: 'Delete root',
-      icon: 'warning-sign',
-      intent: Intent.DANGER,
-      message: message,
-    };
-    //toast.className = this.props.data.themeName;
-    toast.timeout = 5000;
-    this.toaster.show(toast);
-  }
-
   handleCreateLabels() {
-    const payload = {
-      id: this.state.name,
-      data: {
-        description: this.state.description,
-        type: this.state.labelType,
-        oneOf: this.state.oneOfLabels,
-      },
-    };
+    if (isFormValid(this.state.formErrors)) {
+      const payload = {
+        id: this.state.name,
+        data: {
+          description: this.state.description,
+          type: this.state.labelType,
+          oneOf: this.state.oneOfLabels,
+        },
+      };
 
-    createLabels(payload, this.props.user.accessToken, this.props.invalidateToken)
-      .then(label => {
-        this.props.history.push('/labels');
-      })
-      .catch(err => {
-        this.showToast('An error occurred while creating the labels. Verify');
-      });
+      createLabels(payload, this.props.user.accessToken, this.props.invalidateToken)
+        .then(_ => {
+          this.props.history.push('/labels');
+        })
+        .catch(_ => {
+          AppToaster.show({
+            message: 'An error occurred while creating the labels. Verify the logs on the server',
+          });
+        });
+    } else {
+      toastErrors(Object.values(this.state.formErrors));
+    }
   }
 
   handleOnLabelsNameChange(event) {
     const newValue = event.target.value;
+    const error = newValue.length <= 0 && 'The name cannot be empty';
     this.setState(prevState => ({
-      labelType: prevState.labelType,
       name: newValue,
-      description: prevState.description,
-      oneOfLabels: prevState.labels,
+      formErrors: Object.assign(prevState.formErrors, { id: error }),
     }));
   }
   handleOnLabelsDescriptionChange(event) {
     const newValue = event.target.value;
+    const error = newValue.length <= 0 && 'Empty description is not allowed';
     this.setState(prevState => ({
-      labelType: prevState.labelType,
-      name: prevState.name,
       description: newValue,
-      oneOfLabels: prevState.oneOfLabels,
+      formErrors: Object.assign(prevState.formErrors, { description: error }),
     }));
   }
 

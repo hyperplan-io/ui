@@ -4,8 +4,13 @@
   background-color: #6683e2;
 }
 
-.formTitle {
+.signInTitle {
   text-align: center;
+  color: white;
+}
+.signInSubtitle {
+  text-align: center;
+  color: white;
 }
 
 .authenticationField {
