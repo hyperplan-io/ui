@@ -1,13 +1,11 @@
 import React from 'react';
 
-import { Card, InputGroup, H5 } from '@blueprintjs/core';
+import { Card, HTMLSelect, InputGroup, H5 } from '@blueprintjs/core';
 class RasaNluBackendConfiguration extends React.Component {
   constructor(props) {
     super(props);
     this.handleHostChange = this.handleHostChange.bind(this);
     this.handlePortChange = this.handlePortChange.bind(this);
-    this.handleJoinCharacter = this.handleJoinCharacter.bind(this);
-    this.handleFeatureQuery = this.handleFeatureQuery.bind(this);
   }
 
   handleHostChange(event) {
@@ -26,22 +24,6 @@ class RasaNluBackendConfiguration extends React.Component {
     }));
   }
 
-  handleJoinCharacter(event) {
-    const character = event.target.value;
-    this.props.backendConfigurationChange({ key: 'joinCharacter', value: character });
-    this.setState(_ => ({
-      joinCharacter: character,
-    }));
-  }
-
-  handleFeatureQuery(event) {
-    const featureQuery = event.target.value;
-    this.props.backendConfigurationChange({ key: 'featureQuery', value: featureQuery });
-    this.setState(_ => ({
-      featureQuery: featureQuery,
-    }));
-  }
-
   render() {
     return (
       <div>
@@ -51,9 +33,6 @@ class RasaNluBackendConfiguration extends React.Component {
           <br />
           <InputGroup onChange={this.handlePortChange} placeholder="Port (required)" />
           <br />
-          <InputGroup onChange={this.handleJoinCharacter} placeholder="Join character (required)" />
-          <br />
-          <InputGroup onChange={this.handleFeatureQuery} placeholder="Feature to use (required)" />
           <br />
         </Card>
       </div>
