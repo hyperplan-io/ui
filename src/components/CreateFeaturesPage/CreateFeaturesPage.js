@@ -50,6 +50,15 @@ const computeFeaturesError = newFeatures => {
   return error;
 };
 
+/*
+const isReferenceFeature = featureType => {
+  return featureType !== 'String' && featureType !== 'Float' && featureType !== 'Int'
+}
+*/
+
+const isReferenceFeature = featureType => {
+  return featureType === 'Reference';
+};
 class CreateSingleFeature extends React.Component {
   constructor(props) {
     super(props);
@@ -77,17 +86,22 @@ class CreateSingleFeature extends React.Component {
   handleDataTypeChange(event) {
     const newValue = event.target.value;
     this.props.handleDataTypeChange(this.props.id, newValue);
+    const referenceValue = isReferenceFeature(newValue) ? this.props.otherFeatures[0].id : '';
     this.setState(prevState => ({
       currentType: newValue,
-      currentDimension: prevState.currentDimension,
+      referenceValue: referenceValue,
     }));
+
+    this.props.handleDataTypeChange(
+      this.props.id,
+      isReferenceFeature(newValue) ? referenceValue : newValue,
+    );
   }
 
   handleDimensionChange(event) {
     const newValue = event.target.value;
     this.props.handleDimensionChange(this.props.id, newValue);
     this.setState(prevState => ({
-      currentType: prevState.currentType,
       currentDimension: newValue,
     }));
   }
@@ -103,7 +117,7 @@ class CreateSingleFeature extends React.Component {
 
   render() {
     let dimensionComponents;
-    if (this.state.currentType === 'Reference') {
+    if (isReferenceFeature(this.state.currentType)) {
       const features = this.props.otherFeatures.map(feature => feature.id);
       dimensionComponents = (
         <HTMLSelect
