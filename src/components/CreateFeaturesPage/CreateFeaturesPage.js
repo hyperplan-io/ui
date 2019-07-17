@@ -50,12 +50,6 @@ const computeFeaturesError = newFeatures => {
   return error;
 };
 
-/*
-const isReferenceFeature = featureType => {
-  return featureType !== 'String' && featureType !== 'Float' && featureType !== 'Int'
-}
-*/
-
 const isReferenceFeature = featureType => {
   return featureType === 'Reference';
 };
