@@ -37,7 +37,9 @@ class RasaNluFeaturesTransformer extends React.Component {
           console.log(featureName);
           this.setState(prevState => ({
             featureNames: new Set(prevState.featureNames).add(featureName),
+            featureQuery: featureName,
           }));
+          this.props.handleFeatureQueryChange(featureName);
         }
       });
     });
@@ -55,13 +57,15 @@ class RasaNluFeaturesTransformer extends React.Component {
         console.log(featureName);
         this.setState(prevState => ({
           featureNames: new Set(prevState.featureNames).add(featureName),
+          featureQuery: featureName,
         }));
+        this.props.handleFeatureQueryChange(featureName);
       }
     });
   }
 
   handleJoinCharacterChange(event) {
-    this.props.handleJoinCharacterChange(event);
+    this.props.handleJoinCharacterChange(event.target.value);
     const joinCharacter = event.target.value;
     this.setState(_ => ({
       joinCharacter: joinCharacter,
@@ -69,7 +73,7 @@ class RasaNluFeaturesTransformer extends React.Component {
   }
 
   handleFeatureQueryChange(event) {
-    this.props.handleFeatureQueryChange(event);
+    this.props.handleFeatureQueryChange(event.target.value);
     const featureQuery = event.target.value;
     this.setState(_ => ({
       featureQuery: featureQuery,

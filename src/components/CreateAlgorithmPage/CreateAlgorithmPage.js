@@ -30,7 +30,6 @@ const defaultFormErrorsTensorFlowRegression = {
 const defaultFormErrorsRasaNluClassification = {
   host: 'Rasa Nlu requires a host',
   port: 'Rasa Nlu requires a port',
-  featureQuery: 'Rasa Nlu requires to select a feature',
 };
 
 const isFormValid = formErrors => {
@@ -199,8 +198,8 @@ class CreateAlgorithmPage extends React.Component {
     });
   }
 
-  handleJoinCharacterChange(event) {
-    const joinCharacter = event.target.value;
+  handleJoinCharacterChange(joinCharacter) {
+    console.log('handleJoinCharacterChange');
     this.setState(prevState => ({
       featuresTransformer: Object.assign(prevState.featuresTransformer, {
         joinCharacter: joinCharacter,
@@ -208,8 +207,8 @@ class CreateAlgorithmPage extends React.Component {
     }));
   }
 
-  handleFeatureQueryChange(event) {
-    const featureQuery = event.target.value;
+  handleFeatureQueryChange(featureQuery) {
+    console.log('handleFeatureQueryChange');
     const error = featureQuery === '' ? 'Rasa Nlu requires a feature to be selected' : '';
     this.setState(prevState => ({
       featuresTransformer: Object.assign(prevState.featuresTransformer, { field: featureQuery }),
