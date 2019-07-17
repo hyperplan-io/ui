@@ -14,10 +14,7 @@ class RasaNluFeaturesTransformer extends React.Component {
     this.state = {
       featureQuery: this.props.features[0],
     };
-    const featureTransformer = {
-      joinCharacter: '',
-      q: '',
-    };
+
     console.log(this.props.features);
     this.state = {
       featureNames: new Set([]),

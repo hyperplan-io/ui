@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Card, HTMLSelect, InputGroup, H5 } from '@blueprintjs/core';
+import { Card, InputGroup, H5 } from '@blueprintjs/core';
 class RasaNluBackendConfiguration extends React.Component {
   constructor(props) {
     super(props);

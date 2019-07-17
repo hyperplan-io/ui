@@ -322,21 +322,6 @@ class CreateAlgorithmPage extends React.Component {
       );
     }
 
-    const featuresTransformerComponent = this.state.project && (
-      <FeaturesTransformerConfiguration
-        project={this.state.project}
-        featuresTransformerChange={this.featuresTransformerChange}
-      />
-    );
-
-    const labelsTransformerComponent = this.state.project &&
-      this.state.project.problem === 'classification' && (
-        <LabelsTransformerConfiguration
-          project={this.state.project}
-          labelsTransformerChange={this.labelsTransformerChange}
-        />
-      );
-
     return (
       <div>
         <div className="leftPanel">
