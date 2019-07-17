@@ -3,14 +3,16 @@ import React from 'react';
 import { Button, HTMLSelect, InputGroup, Card } from '@blueprintjs/core';
 
 import TensorFlowBackendConfiguration from '../TensorFlowBackendConfiguration/TensorFlowBackendConfiguration';
+import RasaNluBackendConfiguration from '../RasaNluBackendConfiguration/RasaNluBackendConfiguration';
 import FeaturesTransformerConfiguration from '../FeaturesTransformerConfiguration/FeaturesTransformerConfiguration';
 import LabelsTransformerConfiguration from '../LabelsTransformerConfiguration/LabelsTransormerConfiguration';
+import RasaNluFeaturesTransformer from '../RasaNluFeaturesTransformer/RasaNluFeaturesTransformer';
 
 import { getProjectById, createAlgorithm } from '../../utils/Api';
 
 import { AppToaster } from '../../utils/toaster';
 
-const classificationBackends = ['TensorFlowClassificationBackend'];
+const classificationBackends = ['TensorFlowClassificationBackend', 'RasaNluClassificationBackend'];
 const regressionBackends = ['TensorFlowRegressionBackend'];
 
 const defaultFormErrorsTensorFlowClassification = {
@@ -23,6 +25,11 @@ const defaultFormErrorsTensorFlowRegression = {
   host: 'Backend host is required',
   port: 'Backend port is required',
   signatureName: 'Backend signature name is required',
+};
+
+const defaultFormErrorsRasaNluClassification = {
+  host: 'Rasa Nlu requires a host',
+  port: 'Rasa Nlu requires a port',
 };
 
 const isFormValid = formErrors => {
@@ -48,12 +55,15 @@ class CreateAlgorithmPage extends React.Component {
     this.featuresTransformerChange = this.featuresTransformerChange.bind(this);
     this.labelsTransformerChange = this.labelsTransformerChange.bind(this);
     this.backendConfigurationChange = this.backendConfigurationChange.bind(this);
+    this.handleJoinCharacterChange = this.handleJoinCharacterChange.bind(this);
+    this.handleFeatureQueryChange = this.handleFeatureQueryChange.bind(this);
     this.createAlgorithm = this.createAlgorithm.bind(this);
 
     const params = new URLSearchParams(this.props.location.search);
 
     this.state = {
       projectId: params.get('projectId'),
+      algorithmId: '',
       backendConfiguration: {},
       formErrors: {
         id: 'Algorithm id is required',
@@ -109,14 +119,19 @@ class CreateAlgorithmPage extends React.Component {
       backendError = defaultFormErrorsTensorFlowClassification;
     } else if (backend === 'TensorFlowRegressionBackend') {
       backendError = defaultFormErrorsTensorFlowRegression;
+    } else if (backend === 'RasaNluClassificationBackend') {
+      backendError = defaultFormErrorsRasaNluClassification;
+    } else {
+      console.log('Unhandled backend');
+      return;
     }
 
     this.setState(prevState => ({
       backend: backend,
-      formErrors: Object.assign({
-        id: prevState.id.length > 0 ? '' : 'Algorithm id is required',
+      formErrors: Object.assign(
+        { id: prevState.algorithmId.length > 0 ? '' : 'Algorithm id is required' },
         backendError,
-      }),
+      ),
     }));
   }
 
@@ -158,6 +173,16 @@ class CreateAlgorithmPage extends React.Component {
             backendConfiguration.value.length > 0 ? '' : 'Backend signature name is required',
         };
       }
+    } else if (this.state.backend === 'RasaNluClassificationBackend') {
+      if (backendConfiguration.key === 'host') {
+        backendError = {
+          host: backendConfiguration.value.length > 0 ? '' : 'Backend host is required',
+        };
+      } else if (backendConfiguration.key === 'port') {
+        backendError = {
+          port: backendConfiguration.value.length > 0 ? '' : 'Backend port is required',
+        };
+      }
     }
 
     this.setState(prevState => {
@@ -170,6 +195,22 @@ class CreateAlgorithmPage extends React.Component {
         };
       }
     });
+  }
+
+  handleJoinCharacterChange(joinCharacter) {
+    this.setState(prevState => ({
+      featuresTransformer: Object.assign(prevState.featuresTransformer, {
+        joinCharacter: joinCharacter,
+      }),
+    }));
+  }
+
+  handleFeatureQueryChange(featureQuery) {
+    const error = featureQuery === '' ? 'Rasa Nlu requires a feature to be selected' : '';
+    this.setState(prevState => ({
+      featuresTransformer: Object.assign(prevState.featuresTransformer, { field: featureQuery }),
+      formErrors: Object.assign(prevState.formErrors, { featureQuery: error }),
+    }));
   }
 
   createAlgorithm() {
@@ -227,32 +268,55 @@ class CreateAlgorithmPage extends React.Component {
     let backendConfiguration;
     if (this.state.backend === 'TensorFlowClassificationBackend') {
       backendConfiguration = (
-        <TensorFlowBackendConfiguration
-          backendConfigurationChange={this.backendConfigurationChange}
-        />
+        <div>
+          <TensorFlowBackendConfiguration
+            backendConfigurationChange={this.backendConfigurationChange}
+          />
+          <FeaturesTransformerConfiguration
+            project={this.state.project}
+            featuresTransformerChange={this.featuresTransformerChange}
+          />
+          <LabelsTransformerConfiguration
+            project={this.state.project}
+            labelsTransformerChange={this.labelsTransformerChange}
+          />
+        </div>
       );
     } else if (this.state.backend === 'TensorFlowRegressionBackend') {
       backendConfiguration = (
-        <TensorFlowBackendConfiguration
-          backendConfigurationChange={this.backendConfigurationChange}
-        />
+        <div>
+          <TensorFlowBackendConfiguration
+            backendConfigurationChange={this.backendConfigurationChange}
+          />
+          <FeaturesTransformerConfiguration
+            project={this.state.project}
+            featuresTransformerChange={this.featuresTransformerChange}
+          />
+        </div>
+      );
+    } else if (this.state.backend === 'RasaNluClassificationBackend') {
+      backendConfiguration = (
+        <div>
+          <RasaNluBackendConfiguration
+            backendConfigurationChange={this.backendConfigurationChange}
+          />
+          {this.state.project && (
+            <RasaNluFeaturesTransformer
+              features={this.state.project.configuration.features.data}
+              handleFeatureQueryChange={this.handleFeatureQueryChange}
+              handleJoinCharacterChange={this.handleJoinCharacterChange}
+              accessToken={this.props.user.accessToken}
+              invalidateToken={this.props.invalidateToken}
+            />
+          )}
+
+          <LabelsTransformerConfiguration
+            project={this.state.project}
+            labelsTransformerChange={this.labelsTransformerChange}
+          />
+        </div>
       );
     }
-
-    const featuresTransformerComponent = this.state.project && (
-      <FeaturesTransformerConfiguration
-        project={this.state.project}
-        featuresTransformerChange={this.featuresTransformerChange}
-      />
-    );
-
-    const labelsTransformerComponent = this.state.project &&
-      this.state.project.problem === 'classification' && (
-        <LabelsTransformerConfiguration
-          project={this.state.project}
-          labelsTransformerChange={this.labelsTransformerChange}
-        />
-      );
 
     return (
       <div>
@@ -283,13 +347,7 @@ class CreateAlgorithmPage extends React.Component {
             Create
           </Button>
         </div>
-        <div className="rightPanel">
-          {backendConfiguration}
-          <br />
-          {featuresTransformerComponent}
-          <br />
-          {labelsTransformerComponent}
-        </div>
+        <div className="rightPanel">{backendConfiguration}</div>
       </div>
     );
   }
