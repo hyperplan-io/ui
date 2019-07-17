@@ -43,11 +43,11 @@ class RasaNluFeaturesTransformer extends React.Component {
   }
 
   componentDidMount() {
-    this.props.features.data.forEach(feature => {
+    this.props.features.forEach(feature => {
       if (feature.type !== 'String' && feature.type !== 'Float' && feature.type !== 'Int') {
-        const featureName = feature.name;
+        const featureName = feature.value;
         const featureType = feature.type;
-        this.fetchFeaturesRecursively(featureName, featureType);
+        this.fetchFeaturesRecursively(featureType, featureName);
       } else {
         // primitive
         const featureName = feature.name;

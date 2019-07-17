@@ -306,7 +306,7 @@ class CreateAlgorithmPage extends React.Component {
           />
           {this.state.project && (
             <RasaNluFeaturesTransformer
-              features={this.state.project.configuration.features}
+              features={this.state.project.configuration.features.data}
               handleFeatureQueryChange={this.handleFeatureQueryChange}
               handleJoinCharacterChange={this.handleJoinCharacterChange}
               accessToken={this.props.user.accessToken}
