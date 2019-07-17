@@ -126,7 +126,6 @@ class CreateAlgorithmPage extends React.Component {
       return;
     }
 
-    console.log(backendError);
     this.setState(prevState => ({
       backend: backend,
       formErrors: Object.assign(
@@ -199,7 +198,6 @@ class CreateAlgorithmPage extends React.Component {
   }
 
   handleJoinCharacterChange(joinCharacter) {
-    console.log('handleJoinCharacterChange');
     this.setState(prevState => ({
       featuresTransformer: Object.assign(prevState.featuresTransformer, {
         joinCharacter: joinCharacter,
@@ -208,7 +206,6 @@ class CreateAlgorithmPage extends React.Component {
   }
 
   handleFeatureQueryChange(featureQuery) {
-    console.log('handleFeatureQueryChange');
     const error = featureQuery === '' ? 'Rasa Nlu requires a feature to be selected' : '';
     this.setState(prevState => ({
       featuresTransformer: Object.assign(prevState.featuresTransformer, { field: featureQuery }),
@@ -218,7 +215,6 @@ class CreateAlgorithmPage extends React.Component {
 
   createAlgorithm() {
     if (this.state.project && isFormValid(this.state.formErrors)) {
-      console.log(this.state);
       const labelsTransformer =
         this.state.project.problem === 'regression'
           ? {
