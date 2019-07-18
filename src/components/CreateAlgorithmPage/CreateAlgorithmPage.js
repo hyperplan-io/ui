@@ -28,8 +28,9 @@ const defaultFormErrorsTensorFlowRegression = {
 };
 
 const defaultFormErrorsRasaNluClassification = {
-  host: 'Rasa Nlu requires a host',
-  port: 'Rasa Nlu requires a port',
+  rootPath: 'Rasa Nlu requires a root path',
+  project: 'Rasa Nlu requires a project',
+  model: 'Rasa Nlu requires a model',
 };
 
 const isFormValid = formErrors => {
@@ -174,13 +175,17 @@ class CreateAlgorithmPage extends React.Component {
         };
       }
     } else if (this.state.backend === 'RasaNluClassificationBackend') {
-      if (backendConfiguration.key === 'host') {
+      if (backendConfiguration.key === 'rootPath') {
         backendError = {
-          host: backendConfiguration.value.length > 0 ? '' : 'Backend host is required',
+          rootPath: backendConfiguration.value.length > 0 ? '' : 'Backend root path is required',
         };
-      } else if (backendConfiguration.key === 'port') {
+      } else if (backendConfiguration.key === 'project') {
         backendError = {
-          port: backendConfiguration.value.length > 0 ? '' : 'Backend port is required',
+          project: backendConfiguration.value.length > 0 ? '' : 'Backend project is required',
+        };
+      } else if (backendConfiguration.key === 'model') {
+        backendError = {
+          model: backendConfiguration.value.length > 0 ? '' : 'Backend model is required',
         };
       }
     }
@@ -228,6 +233,9 @@ class CreateAlgorithmPage extends React.Component {
           class: this.state.backend,
           host: this.state.backendConfiguration.host,
           port: this.state.backendConfiguration.port,
+          rootPath: this.state.backendConfiguration.rootPath,
+          project: this.state.backendConfiguration.project,
+          model: this.state.backendConfiguration.model,
           featuresTransformer: this.state.featuresTransformer,
           labelsTransformer: labelsTransformer,
         },

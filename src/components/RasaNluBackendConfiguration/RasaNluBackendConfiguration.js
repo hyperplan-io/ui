@@ -4,23 +4,32 @@ import { Card, InputGroup, H5 } from '@blueprintjs/core';
 class RasaNluBackendConfiguration extends React.Component {
   constructor(props) {
     super(props);
-    this.handleHostChange = this.handleHostChange.bind(this);
-    this.handlePortChange = this.handlePortChange.bind(this);
+    this.handleRootPathChange = this.handleRootPathChange.bind(this);
+    this.handleRasaProjectChange = this.handleRasaProjectChange.bind(this);
+    this.handleRasaModelChange = this.handleRasaModelChange.bind(this);
   }
 
-  handleHostChange(event) {
-    const host = event.target.value;
-    this.props.backendConfigurationChange({ key: 'host', value: host });
+  handleRootPathChange(event) {
+    const rootPath = event.target.value;
+    this.props.backendConfigurationChange({ key: 'rootPath', value: rootPath });
     this.setState(_ => ({
-      host: host,
+      rootPath: rootPath,
     }));
   }
 
-  handlePortChange(event) {
-    const port = event.target.value;
-    this.props.backendConfigurationChange({ key: 'port', value: port });
+  handleRasaProjectChange(event) {
+    const project = event.target.value;
+    this.props.backendConfigurationChange({ key: 'project', value: project });
     this.setState(_ => ({
-      port: port,
+      project: project,
+    }));
+  }
+
+  handleRasaModelChange(event) {
+    const model = event.target.value;
+    this.props.backendConfigurationChange({ key: 'model', value: model });
+    this.setState(_ => ({
+      model: model,
     }));
   }
 
@@ -29,10 +38,11 @@ class RasaNluBackendConfiguration extends React.Component {
       <div>
         <Card>
           <H5>TensorFlow Configuration </H5>
-          <InputGroup onChange={this.handleHostChange} placeholder="Host (required)" />
+          <InputGroup onChange={this.handleRootPathChange} placeholder="Root path (required)" />
           <br />
-          <InputGroup onChange={this.handlePortChange} placeholder="Port (required)" />
+          <InputGroup onChange={this.handleRasaProjectChange} placeholder="Project (required)" />
           <br />
+          <InputGroup onChange={this.handleRasaModelChange} placeholder="Model (required)" />
           <br />
         </Card>
       </div>
