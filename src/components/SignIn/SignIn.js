@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Card, FormGroup, InputGroup, Button, H1, H3 } from '@blueprintjs/core';
+import { Card, FormGroup, InputGroup, Button } from '@blueprintjs/core';
 import './SignIn.css';
 
 import Navbar from '../Navbar/Navbar';
@@ -80,43 +80,46 @@ class SignIn extends React.Component {
       );
     } else {
       return (
-        <div className="formPadding">
-          <H1 className="signInTitle"> Hyperplan.io </H1>
-          <H3 className="signInSubtitle">
-            Build the machine learning platform that works for your business{' '}
-          </H3>
-          <FormGroup className="MyForm" inline="true" labelFor="text-input">
-            <Card>
-              <form
-                onSubmit={e => {
-                  e.preventDefault();
-                  this.handleSubmit();
-                }}
-              >
-                <InputGroup
-                  onChange={this.onUsernameChange}
-                  className="authenticationField"
-                  type="text"
-                  id="text-input"
-                  placeholder="Username"
-                />
-                <InputGroup
-                  onChange={this.onPasswordChange}
-                  className="authenticationField"
-                  type="password"
-                  id="text-input"
-                  placeholder="Password"
-                />
-                <Button
-                  type="submit"
-                  className="signInButton"
-                  text="Sign in"
-                  intent="success"
-                  onClick={this.handleSubmit}
-                />
-              </form>
-            </Card>
-          </FormGroup>
+        <div>
+          <div className="topHalf" />
+          <div className="bottomHalf" />
+          <div className="formPadding">
+            <FormGroup className="MyForm" inline="true" labelFor="text-input">
+              <Card className="wideCard">
+                <h1 className="centerGrey">Hyperplan.io </h1>
+                <h3 className="centerGrey">Login</h3>
+                <form
+                  onSubmit={e => {
+                    e.preventDefault();
+                    this.handleSubmit();
+                  }}
+                >
+                  <InputGroup
+                    onChange={this.onUsernameChange}
+                    className="authenticationField"
+                    type="text"
+                    id="text-input"
+                    placeholder="Username"
+                  />
+                  <br />
+                  <InputGroup
+                    onChange={this.onPasswordChange}
+                    className="authenticationField"
+                    type="password"
+                    id="text-input"
+                    placeholder="Password"
+                  />
+                  <Button
+                    type="submit"
+                    className="signInButton"
+                    text="Sign in"
+                    intent="success"
+                    onClick={this.handleSubmit}
+                  />
+                </form>
+              </Card>
+            </FormGroup>
+          </div>
         </div>
       );
     }
