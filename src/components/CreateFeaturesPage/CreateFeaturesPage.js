@@ -46,6 +46,7 @@ const computeFeaturesError = newFeatures => {
         return 'Each feature name and description need to be defined';
       }
     })
+    .filter(f => f.length > 0)
     .join(',');
   return error;
 };
